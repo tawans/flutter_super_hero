@@ -44,23 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _buildBottomNavigationBar(),
-      // bottomNavigationBar:
-      //     BottomNavigationBar(currentIndex: index, items: const [
-      //   BottomNavigationBarItem(
-      //     icon: Icon(Icons.home),
-      //     label: 'Home',
-      //   ),
-      //   BottomNavigationBarItem(
-      //     icon: Icon(Icons.search),
-      //     label: 'Search',
-      //   ),
-      //   BottomNavigationBarItem(
-      //     icon: Icon(Icons.person),
-      //     label: 'Profile',
-      //   ),
-      // ]),
       appBar: AppBar(title: const Text('SuperHero')),
-      body: const HomeBody(),
+      body: HomeBody(index: index),
     );
   }
 
@@ -74,42 +59,74 @@ class _MyHomePageState extends State<MyHomePage> {
         Icons.settings,
       ],
       activeIndex: index,
-      onTap: (int index) => setState(() => this.index = index),
+      onTap: (newIndex) => setState(() => index = newIndex),
+      activeColor: Colors.deepPurple,
     );
   }
 }
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
+class HomeBody extends StatelessWidget {
+  const HomeBody({super.key, required this.index});
 
-  @override
-  State<HomeBody> createState() => _HomeBodyState();
-}
+  final int index;
 
-class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'SuperHero 앱',
-            style: TextStyle(
-              fontSize: 60,
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          ElevatedButton(
-            onPressed: (() {}),
-            child: const Text(
-              'data',
-            ),
-          ),
-        ],
-      ),
+    switch (index) {
+      case 0:
+        return const HomeScreen();
+      case 1:
+        return const SearchScreen();
+      case 2:
+        return const ProfileScreen();
+      case 3:
+        return const SettingsScreen();
+      default:
+        return const HomeScreen();
+    }
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home Screen'),
+    );
+  }
+}
+
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Search Screen'),
+    );
+  }
+}
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Profile Screen'),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Settings Screen'),
     );
   }
 }
