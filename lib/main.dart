@@ -1,5 +1,6 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_super_hero/route/router.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,79 +12,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'SuperHero',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      routerConfig: router,
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late int index;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    index = 0;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _buildBottomNavigationBar(),
-      appBar: AppBar(title: const Text('SuperHero')),
-      body: HomeBody(index: index),
-    );
-  }
-
-  Widget _buildBottomNavigationBar() {
-    return AnimatedBottomNavigationBar(
-      gapLocation: GapLocation.none,
-      icons: const [
-        Icons.home,
-        Icons.search,
-        Icons.person,
-        Icons.settings,
-      ],
-      activeIndex: index,
-      onTap: (newIndex) => setState(() => index = newIndex),
-      activeColor: Colors.deepPurple,
-    );
-  }
-}
-
-class HomeBody extends StatelessWidget {
-  const HomeBody({super.key, required this.index});
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (index) {
-      case 0:
-        return const HomeScreen();
-      case 1:
-        return const SearchScreen();
-      case 2:
-        return const ProfileScreen();
-      case 3:
-        return const SettingsScreen();
-      default:
-        return const HomeScreen();
-    }
   }
 }
 
@@ -125,8 +62,36 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings Screen'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Settings Screen'),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              context.go('/home');
+            },
+            child: const Text('go to home'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  const SecondScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('')),
+      body: const Center(
+        child: Column(
+          children: [Text('df')],
+        ),
+      ),
     );
   }
 }
