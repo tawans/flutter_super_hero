@@ -1,5 +1,9 @@
 import 'package:flutter_super_hero/main.dart';
 import 'package:flutter_super_hero/screen/default_layout.dart';
+import 'package:flutter_super_hero/screen/home_screen.dart';
+import 'package:flutter_super_hero/screen/profile_screen.dart';
+import 'package:flutter_super_hero/screen/search_screen.dart';
+import 'package:flutter_super_hero/screen/settings_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
