@@ -19,11 +19,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
             .uri
             .toString() ==
         '/home') {
-      print(GoRouter.of(context)
-          .routerDelegate
-          .currentConfiguration
-          .uri
-          .toString());
       return 0;
     } else if (GoRouter.of(context)
             .routerDelegate
@@ -54,8 +49,9 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: _buildBottomNavigationBar(),
-      appBar: AppBar(title: const Text('SuperHero')),
+      appBar: appBarUI(),
       body: widget.child,
     );
   }
@@ -85,4 +81,48 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       activeColor: Colors.deepPurple,
     );
   }
+
+  Widget appBarUI() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Choose your',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    letterSpacing: 0.2,
+                    color: DesignCourseAppTheme.grey,
+                  ),
+                ),
+                Text(
+                  'Design Course',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    letterSpacing: 0.27,
+                    color: DesignCourseAppTheme.darkerText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 60,
+            height: 60,
+            child: Image.asset('assets/design_course/userImage.png'),
+          )
+        ],
+      ),
+    );
+  }
+}
 }
