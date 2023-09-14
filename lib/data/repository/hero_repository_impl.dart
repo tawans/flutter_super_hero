@@ -10,20 +10,10 @@ class HeroRepositoryImpl implements HeroRepository {
   Future<List<Hero>> getHerosId(String id) async {
     final dto = await _api.fetchHeroId(id);
 
-    if (dto.id == null) {
-      throw DioException(
-        requestOptions: RequestOptions(path: ""),
-        error: "Hero not found",
-        response: Response(
-          requestOptions: RequestOptions(path: ""),
-          data: "Hero not found",
-          statusCode: 404,
-        ),
-      );
+    if (dto.name == null) {
+      return [];
     }
 
-    final heroResultDto = await _api.fetchHeroId(id);
-
-    return heroResultDto.map((e) => e.toModel()).toList();
+    return dto.map((e) => e.toModel()).toList();
   }
 }
