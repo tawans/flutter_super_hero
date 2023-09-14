@@ -9,7 +9,7 @@ class HeroRepositoryImpl implements HeroRepository {
   final _api = HeroApi();
 
   @override
-  Future<List<Hero>> getHeros(String query) async {
+  Future<List<Hero>> getSearchHeros(String query) async {
     final resultDto = await _api.fetchHeroSearch(query);
 
     if (resultDto.results == null) {

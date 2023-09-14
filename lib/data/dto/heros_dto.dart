@@ -11,7 +11,7 @@ String herosDtoToJson(HerosDto data) => json.encode(data.toJson());
 class HerosDto {
   String? response;
   String? resultsFor;
-  List<Result>? results;
+  List<SearchHeroResult>? results;
 
   HerosDto({
     this.response,
@@ -24,8 +24,8 @@ class HerosDto {
         resultsFor: json["results-for"],
         results: json["results"] == null
             ? []
-            : List<Result>.from(
-                json["results"]!.map((x) => Result.fromJson(x))),
+            : List<SearchHeroResult>.from(
+                json["results"]!.map((x) => SearchHeroResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,7 +37,7 @@ class HerosDto {
       };
 }
 
-class Result {
+class SearchHeroResult {
   String? id;
   String? name;
   PowerstatsDto? powerstats;
@@ -47,7 +47,7 @@ class Result {
   ConnectionsDto? connections;
   ImageDto? image;
 
-  Result({
+  SearchHeroResult({
     this.id,
     this.name,
     this.powerstats,
@@ -58,7 +58,8 @@ class Result {
     this.image,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory SearchHeroResult.fromJson(Map<String, dynamic> json) =>
+      SearchHeroResult(
         id: json["id"],
         name: json["name"],
         powerstats: json["powerstats"] == null

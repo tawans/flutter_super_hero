@@ -7,7 +7,7 @@ import 'package:flutter_super_hero/domain/model/image.dart';
 import 'package:flutter_super_hero/domain/model/powerstats.dart';
 import 'package:flutter_super_hero/domain/model/work.dart';
 
-extension HeroMapper on Result {
+extension HeroMapper on SearchHeroResult {
   Hero toHero() {
     return Hero(
       id: id ?? '',
