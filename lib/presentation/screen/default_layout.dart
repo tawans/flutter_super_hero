@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
 class DefaultLayout extends StatefulWidget {
@@ -51,8 +52,9 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: _buildBottomNavigationBar(),
-      appBar: appBarUI(),
-      body: widget.child,
+      body: SafeArea(
+        child: widget.child,
+      ),
     );
   }
 
@@ -81,48 +83,4 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       activeColor: Colors.deepPurple,
     );
   }
-
-  Widget appBarUI() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Choose your',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                    color: DesignCourseAppTheme.grey,
-                  ),
-                ),
-                Text(
-                  'Design Course',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                    letterSpacing: 0.27,
-                    color: DesignCourseAppTheme.darkerText,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 60,
-            height: 60,
-            child: Image.asset('assets/design_course/userImage.png'),
-          )
-        ],
-      ),
-    );
-  }
-}
 }
