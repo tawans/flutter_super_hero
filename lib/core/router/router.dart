@@ -1,10 +1,13 @@
-import 'package:flutter_super_hero/main.dart';
+import 'package:flutter_super_hero/data/repository/hero_repository_impl.dart';
+import 'package:flutter_super_hero/domain/use_case/get_search_heros_usecase.dart';
 import 'package:flutter_super_hero/presentation/screen/default_layout.dart';
 import 'package:flutter_super_hero/presentation/screen/home_screen.dart';
+import 'package:flutter_super_hero/presentation/screen/home_view_model.dart';
 import 'package:flutter_super_hero/presentation/screen/profile_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/search_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/settings_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 final router = GoRouter(
   initialLocation: '/home',
@@ -18,8 +21,15 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/home',
-          builder: (_, state) {
-            return const HomeScreen();
+          builder: (context, state) {
+            return ChangeNotifierProvider(
+              create: (_) => HomeViewModel(
+                GetSearchHerosUseCase(
+                  HeroRepositoryImpl(),
+                ),
+              ),
+              child: const HomeScreen(),
+            );
           },
         ),
         GoRoute(
