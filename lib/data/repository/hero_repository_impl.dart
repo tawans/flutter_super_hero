@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_super_hero/data/api/hero_api.dart';
 import 'package:flutter_super_hero/data/mapper/hero_mapper.dart';
 import 'package:flutter_super_hero/domain/model/hero.dart';
@@ -7,13 +9,13 @@ class HeroRepositoryImpl implements HeroRepository {
   final _api = HeroApi();
 
   @override
-  Future<Hero> getHeroId(String id) async {
-    final dto = await _api.fetchHeroId(id);
+  Future<List<Hero>> getHeros(String query) async {
+    final resultDto = await _api.fetchHeroSearch(query);
 
-    if (dto.name == null) {
-      throw Exception('Hero 없음');
+    if (resultDto.results == null) {
+      return [];
     }
 
-    return dto.toHero();
+    return resultDto.results!.map((e) => e.toHero()).toList();
   }
 }

@@ -12,7 +12,6 @@ part 'hero.g.dart';
 @freezed
 class Hero with _$Hero {
   const factory Hero({
-    required String response,
     required String id,
     required String name,
     required Powerstats powerstats,

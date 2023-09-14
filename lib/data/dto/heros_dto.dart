@@ -1,16 +1,43 @@
 // To parse this JSON data, do
 //
-//     final heroResultDto = heroResultDtoFromJson(jsonString);
+//     final herosDto = herosDtoFromJson(jsonString);
 
 import 'dart:convert';
 
-HeroResultDto heroResultDtoFromJson(String str) =>
-    HeroResultDto.fromJson(json.decode(str));
+HerosDto herosDtoFromJson(String str) => HerosDto.fromJson(json.decode(str));
 
-String heroResultDtoToJson(HeroResultDto data) => json.encode(data.toJson());
+String herosDtoToJson(HerosDto data) => json.encode(data.toJson());
 
-class HeroResultDto {
+class HerosDto {
   String? response;
+  String? resultsFor;
+  List<Result>? results;
+
+  HerosDto({
+    this.response,
+    this.resultsFor,
+    this.results,
+  });
+
+  factory HerosDto.fromJson(Map<String, dynamic> json) => HerosDto(
+        response: json["response"],
+        resultsFor: json["results-for"],
+        results: json["results"] == null
+            ? []
+            : List<Result>.from(
+                json["results"]!.map((x) => Result.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "response": response,
+        "results-for": resultsFor,
+        "results": results == null
+            ? []
+            : List<dynamic>.from(results!.map((x) => x.toJson())),
+      };
+}
+
+class Result {
   String? id;
   String? name;
   PowerstatsDto? powerstats;
@@ -20,8 +47,7 @@ class HeroResultDto {
   ConnectionsDto? connections;
   ImageDto? image;
 
-  HeroResultDto({
-    this.response,
+  Result({
     this.id,
     this.name,
     this.powerstats,
@@ -32,8 +58,7 @@ class HeroResultDto {
     this.image,
   });
 
-  factory HeroResultDto.fromJson(Map<String, dynamic> json) => HeroResultDto(
-        response: json["response"],
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
         name: json["name"],
         powerstats: json["powerstats"] == null
@@ -53,7 +78,6 @@ class HeroResultDto {
       );
 
   Map<String, dynamic> toJson() => {
-        "response": response,
         "id": id,
         "name": name,
         "powerstats": powerstats?.toJson(),

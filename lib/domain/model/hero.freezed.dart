@@ -20,7 +20,6 @@ Hero _$HeroFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Hero {
-  String get response => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   Powerstats get powerstats => throw _privateConstructorUsedError;
@@ -41,8 +40,7 @@ abstract class $HeroCopyWith<$Res> {
       _$HeroCopyWithImpl<$Res, Hero>;
   @useResult
   $Res call(
-      {String response,
-      String id,
+      {String id,
       String name,
       Powerstats powerstats,
       Biography biography,
@@ -72,7 +70,6 @@ class _$HeroCopyWithImpl<$Res, $Val extends Hero>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? response = null,
     Object? id = null,
     Object? name = null,
     Object? powerstats = null,
@@ -83,10 +80,6 @@ class _$HeroCopyWithImpl<$Res, $Val extends Hero>
     Object? image = null,
   }) {
     return _then(_value.copyWith(
-      response: null == response
-          ? _value.response
-          : response // ignore: cast_nullable_to_non_nullable
-              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -178,8 +171,7 @@ abstract class _$$_HeroCopyWith<$Res> implements $HeroCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String response,
-      String id,
+      {String id,
       String name,
       Powerstats powerstats,
       Biography biography,
@@ -211,7 +203,6 @@ class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? response = null,
     Object? id = null,
     Object? name = null,
     Object? powerstats = null,
@@ -222,10 +213,6 @@ class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
     Object? image = null,
   }) {
     return _then(_$_Hero(
-      response: null == response
-          ? _value.response
-          : response // ignore: cast_nullable_to_non_nullable
-              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -266,8 +253,7 @@ class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
 @JsonSerializable()
 class _$_Hero implements _Hero {
   const _$_Hero(
-      {required this.response,
-      required this.id,
+      {required this.id,
       required this.name,
       required this.powerstats,
       required this.biography,
@@ -278,8 +264,6 @@ class _$_Hero implements _Hero {
 
   factory _$_Hero.fromJson(Map<String, dynamic> json) => _$$_HeroFromJson(json);
 
-  @override
-  final String response;
   @override
   final String id;
   @override
@@ -299,7 +283,7 @@ class _$_Hero implements _Hero {
 
   @override
   String toString() {
-    return 'Hero(response: $response, id: $id, name: $name, powerstats: $powerstats, biography: $biography, appearance: $appearance, work: $work, connections: $connections, image: $image)';
+    return 'Hero(id: $id, name: $name, powerstats: $powerstats, biography: $biography, appearance: $appearance, work: $work, connections: $connections, image: $image)';
   }
 
   @override
@@ -307,8 +291,6 @@ class _$_Hero implements _Hero {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Hero &&
-            (identical(other.response, response) ||
-                other.response == response) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.powerstats, powerstats) ||
@@ -325,8 +307,8 @@ class _$_Hero implements _Hero {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, response, id, name, powerstats,
-      biography, appearance, work, connections, image);
+  int get hashCode => Object.hash(runtimeType, id, name, powerstats, biography,
+      appearance, work, connections, image);
 
   @JsonKey(ignore: true)
   @override
@@ -344,8 +326,7 @@ class _$_Hero implements _Hero {
 
 abstract class _Hero implements Hero {
   const factory _Hero(
-      {required final String response,
-      required final String id,
+      {required final String id,
       required final String name,
       required final Powerstats powerstats,
       required final Biography biography,
@@ -356,8 +337,6 @@ abstract class _Hero implements Hero {
 
   factory _Hero.fromJson(Map<String, dynamic> json) = _$_Hero.fromJson;
 
-  @override
-  String get response;
   @override
   String get id;
   @override

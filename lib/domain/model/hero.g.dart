@@ -7,7 +7,6 @@ part of 'hero.dart';
 // **************************************************************************
 
 _$_Hero _$$_HeroFromJson(Map<String, dynamic> json) => _$_Hero(
-      response: json['response'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
       powerstats:
@@ -22,7 +21,6 @@ _$_Hero _$$_HeroFromJson(Map<String, dynamic> json) => _$_Hero(
     );
 
 Map<String, dynamic> _$$_HeroToJson(_$_Hero instance) => <String, dynamic>{
-      'response': instance.response,
       'id': instance.id,
       'name': instance.name,
       'powerstats': instance.powerstats,

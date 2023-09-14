@@ -1,4 +1,4 @@
-import 'package:flutter_super_hero/data/dto/hero_result_dto.dart';
+import 'package:flutter_super_hero/data/dto/heros_dto.dart';
 import 'package:flutter_super_hero/domain/model/appearance.dart';
 import 'package:flutter_super_hero/domain/model/biography.dart';
 import 'package:flutter_super_hero/domain/model/connections.dart';
@@ -7,47 +7,46 @@ import 'package:flutter_super_hero/domain/model/image.dart';
 import 'package:flutter_super_hero/domain/model/powerstats.dart';
 import 'package:flutter_super_hero/domain/model/work.dart';
 
-extension HeroMapper on HeroResultDto {
+extension HeroMapper on Result {
   Hero toHero() {
     return Hero(
-      response: response ?? "",
-      id: id ?? "",
-      name: name ?? "",
+      id: id ?? '',
+      name: name ?? '',
       powerstats: Powerstats(
-        intelligence: powerstats?.intelligence ?? "",
-        strength: powerstats?.strength ?? "",
-        speed: powerstats?.speed ?? "",
-        durability: powerstats?.durability ?? "",
-        power: powerstats?.power ?? "",
-        combat: powerstats?.combat ?? "",
+        intelligence: PowerstatsDto().intelligence ?? '',
+        strength: PowerstatsDto().strength ?? '',
+        speed: PowerstatsDto().speed ?? '',
+        durability: PowerstatsDto().durability ?? '',
+        power: PowerstatsDto().power ?? '',
+        combat: PowerstatsDto().combat ?? '',
       ),
       biography: Biography(
-        fullName: biography?.fullName ?? "",
-        alterEgos: biography?.alterEgos ?? "",
-        aliases: biography?.aliases ?? [],
-        placeOfBirth: biography?.placeOfBirth ?? "",
-        firstAppearance: biography?.firstAppearance ?? "",
-        publisher: biography?.publisher ?? "",
-        alignment: biography?.alignment ?? "",
+        fullName: BiographyDto().fullName ?? '',
+        alterEgos: BiographyDto().alterEgos ?? '',
+        aliases: BiographyDto().aliases ?? [],
+        placeOfBirth: BiographyDto().placeOfBirth ?? '',
+        firstAppearance: BiographyDto().firstAppearance ?? '',
+        publisher: BiographyDto().publisher ?? '',
+        alignment: BiographyDto().alignment ?? '',
       ),
       appearance: Appearance(
-        gender: appearance?.gender ?? "",
-        race: appearance?.race ?? "",
-        height: appearance?.height ?? [],
-        weight: appearance?.weight ?? [],
-        eyeColor: appearance?.eyeColor ?? "",
-        hairColor: appearance?.hairColor ?? "",
+        gender: AppearanceDto().gender ?? '',
+        race: AppearanceDto().race ?? '',
+        height: AppearanceDto().height ?? [],
+        weight: AppearanceDto().weight ?? [],
+        eyeColor: AppearanceDto().eyeColor ?? '',
+        hairColor: AppearanceDto().hairColor ?? '',
       ),
       work: Work(
-        occupation: work?.occupation ?? "",
-        base: work?.base ?? "",
+        occupation: WorkDto().occupation ?? '',
+        base: WorkDto().base ?? '',
       ),
       connections: Connections(
-        groupAffiliation: connections?.groupAffiliation ?? "",
-        relatives: connections?.relatives ?? "",
+        groupAffiliation: ConnectionsDto().groupAffiliation ?? '',
+        relatives: ConnectionsDto().relatives ?? '',
       ),
       image: Image(
-        url: image?.url ?? "",
+        url: ImageDto().url ?? '',
       ),
     );
   }
