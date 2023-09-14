@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
+  static const Color notWhite = Color(0xFFEDF0F2);
+  static const Color nearlyWhite = Color(0xFFFFFFFF);
   static const Color heroBlue = Color(0xFF00B6F0);
   static const Color heroBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
