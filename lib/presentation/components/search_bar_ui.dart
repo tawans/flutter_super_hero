@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_super_hero/presentation/screen/home_view_model.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:flutter_super_hero/presentation/util/hex_color.dart';
 
@@ -32,6 +32,9 @@ Widget searchBarUi(BuildContext context, TextEditingController controller,
                     child: Container(
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: TextField(
+                        onSubmitted: (value) {
+                          viewModel.fetchHeros(controller.text);
+                        },
                         controller: controller,
                         cursorColor: AppTheme.heroBlue,
                         autofocus: true,
