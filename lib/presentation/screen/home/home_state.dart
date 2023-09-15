@@ -11,6 +11,7 @@ class HomeState with _$HomeState {
   const factory HomeState({
     @Default([]) List<Hero> heros,
     @Default(false) bool isLoading,
+    @Default(false) bool isSearching,
   }) = _HomeState;
 
   factory HomeState.fromJson(Map<String, Object?> json) =>

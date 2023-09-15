@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_super_hero/core/result.dart';
 import 'package:flutter_super_hero/domain/use_case/get_search_heros_usecase.dart';
-import 'package:flutter_super_hero/presentation/screen/home_state.dart';
-import 'package:flutter_super_hero/presentation/screen/home_ui_event.dart';
-
-import '../../core/result.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_state.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_ui_event.dart';
 
 class HomeViewModel with ChangeNotifier {
   final GetSearchHerosUseCase _getSearchHerosUseCase;

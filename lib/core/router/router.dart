@@ -1,8 +1,8 @@
 import 'package:flutter_super_hero/data/repository/hero_repository_impl.dart';
 import 'package:flutter_super_hero/domain/use_case/get_search_heros_usecase.dart';
 import 'package:flutter_super_hero/presentation/screen/default_layout.dart';
-import 'package:flutter_super_hero/presentation/screen/home_screen.dart';
-import 'package:flutter_super_hero/presentation/screen/home_view_model.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_screen.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart';
 import 'package:flutter_super_hero/presentation/screen/profile_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/search_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/settings_screen.dart';

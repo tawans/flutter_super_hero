@@ -12,10 +12,12 @@ _$_HomeState _$$_HomeStateFromJson(Map<String, dynamic> json) => _$_HomeState(
               .toList() ??
           const [],
       isLoading: json['isLoading'] as bool? ?? false,
+      isSearching: json['isSearching'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_HomeStateToJson(_$_HomeState instance) =>
     <String, dynamic>{
       'heros': instance.heros,
       'isLoading': instance.isLoading,
+      'isSearching': instance.isSearching,
     };

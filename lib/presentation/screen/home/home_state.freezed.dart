@@ -22,6 +22,7 @@ HomeState _$HomeStateFromJson(Map<String, dynamic> json) {
 mixin _$HomeState {
   List<Hero> get heros => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isSearching => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({List<Hero> heros, bool isLoading});
+  $Res call({List<Hero> heros, bool isLoading, bool isSearching});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? heros = null,
     Object? isLoading = null,
+    Object? isSearching = null,
   }) {
     return _then(_value.copyWith(
       heros: null == heros
@@ -61,6 +63,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSearching: null == isSearching
+          ? _value.isSearching
+          : isSearching // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -73,7 +79,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Hero> heros, bool isLoading});
+  $Res call({List<Hero> heros, bool isLoading, bool isSearching});
 }
 
 /// @nodoc
@@ -89,6 +95,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? heros = null,
     Object? isLoading = null,
+    Object? isSearching = null,
   }) {
     return _then(_$_HomeState(
       heros: null == heros
@@ -99,6 +106,10 @@ class __$$_HomeStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSearching: null == isSearching
+          ? _value.isSearching
+          : isSearching // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -107,7 +118,9 @@ class __$$_HomeStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   const _$_HomeState(
-      {final List<Hero> heros = const [], this.isLoading = false})
+      {final List<Hero> heros = const [],
+      this.isLoading = false,
+      this.isSearching = false})
       : _heros = heros;
 
   factory _$_HomeState.fromJson(Map<String, dynamic> json) =>
@@ -125,10 +138,13 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isSearching;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(heros: $heros, isLoading: $isLoading)';
+    return 'HomeState(heros: $heros, isLoading: $isLoading, isSearching: $isSearching)';
   }
 
   @override
@@ -137,7 +153,8 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
     properties
       ..add(DiagnosticsProperty('type', 'HomeState'))
       ..add(DiagnosticsProperty('heros', heros))
-      ..add(DiagnosticsProperty('isLoading', isLoading));
+      ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(DiagnosticsProperty('isSearching', isSearching));
   }
 
   @override
@@ -147,13 +164,15 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
             other is _$_HomeState &&
             const DeepCollectionEquality().equals(other._heros, _heros) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.isSearching, isSearching) ||
+                other.isSearching == isSearching));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_heros), isLoading);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_heros), isLoading, isSearching);
 
   @JsonKey(ignore: true)
   @override
@@ -170,8 +189,10 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final List<Hero> heros, final bool isLoading}) =
-      _$_HomeState;
+  const factory _HomeState(
+      {final List<Hero> heros,
+      final bool isLoading,
+      final bool isSearching}) = _$_HomeState;
 
   factory _HomeState.fromJson(Map<String, dynamic> json) =
       _$_HomeState.fromJson;
@@ -180,6 +201,8 @@ abstract class _HomeState implements HomeState {
   List<Hero> get heros;
   @override
   bool get isLoading;
+  @override
+  bool get isSearching;
   @override
   @JsonKey(ignore: true)
   _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
