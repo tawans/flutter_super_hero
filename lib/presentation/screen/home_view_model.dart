@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_super_hero/domain/repository/hero_repository.dart';
 import 'package:flutter_super_hero/domain/use_case/get_search_heros_usecase.dart';
 import 'package:flutter_super_hero/presentation/screen/home_state.dart';
 import 'package:flutter_super_hero/presentation/screen/home_ui_event.dart';
@@ -21,7 +20,7 @@ class HomeViewModel with ChangeNotifier {
 
   HomeState get state => _state;
 
-  void fetchImages(String query) async {
+  void fetchHeros(String query) async {
     if (query.isEmpty) {
       _eventController.add(const ShowSnackBar('검색어가 없습니다'));
       return;

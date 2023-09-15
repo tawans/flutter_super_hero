@@ -1,6 +1,5 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
 class DefaultLayout extends StatefulWidget {

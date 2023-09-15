@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_super_hero/data/mapper/hero_mapper.dart';
 import 'package:flutter_super_hero/presentation/components/search_bar_ui.dart';
 import 'package:flutter_super_hero/presentation/screen/home_ui_event.dart';
 import 'package:flutter_super_hero/presentation/screen/home_view_model.dart';
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).padding.top,
           ),
           appBarUI(),
-          searchBarUi(context),
+          searchBarUi(context, controller, viewModel),
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -73,11 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: state.heros.length,
                   itemBuilder: (context, index) {
                     final hero = state.heros[index];
+                    print(hero.toString());
                     return Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: InkWell(
                         onTap: () {
-                          context.push('/search', extra: hero);
+                          context.push('/search');
                         },
                         child: Hero(
                           tag: hero.id,
@@ -86,12 +86,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(16.0),
                             ),
                             elevation: 4.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: Image.network(
-                                hero.image.url,
-                                fit: BoxFit.cover,
-                              ),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  child: Image.network(
+                                    hero.image.url,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 140,
+                                  ),
+                                ),
+                                Text(
+                                  hero.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    letterSpacing: 0.27,
+                                    color: AppTheme.darkerText,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_super_hero/presentation/screen/home_view_model.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:flutter_super_hero/presentation/util/hex_color.dart';
 
-Widget searchBarUi(BuildContext context) {
+Widget searchBarUi(BuildContext context, TextEditingController controller,
+    HomeViewModel viewModel) {
   return Padding(
     padding: const EdgeInsets.only(top: 8.0, left: 18),
     child: Row(
@@ -29,7 +31,8 @@ Widget searchBarUi(BuildContext context) {
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: TextFormField(
+                      child: TextField(
+                        controller: controller,
                         cursorColor: AppTheme.heroBlue,
                         autofocus: true,
                         style: const TextStyle(
@@ -48,19 +51,20 @@ Widget searchBarUi(BuildContext context) {
                             fontSize: 20,
                             color: HexColor('#B9BABC'),
                           ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.search,
+                              color: HexColor('#B9BABC'),
+                            ),
+                            onPressed: () {
+                              viewModel.fetchHeros(controller.text);
+                            },
+                          ),
                         ),
                         onEditingComplete: () {},
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.search,
-                      color: HexColor('#B9BABC'),
-                    ),
-                  )
                 ],
               ),
             ),

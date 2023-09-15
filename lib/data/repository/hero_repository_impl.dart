@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_super_hero/data/api/hero_api.dart';
 import 'package:flutter_super_hero/data/mapper/hero_mapper.dart';
 import 'package:flutter_super_hero/domain/model/hero.dart';
