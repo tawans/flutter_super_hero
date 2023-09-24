@@ -1,5 +1,5 @@
 import 'package:flutter_super_hero/core/result.dart';
-import 'package:flutter_super_hero/domain/model/hero.dart';
+import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/domain/repository/hero_repository.dart';
 
 class GetSearchHerosUseCase {
@@ -7,9 +7,10 @@ class GetSearchHerosUseCase {
 
   GetSearchHerosUseCase(this._heroRepository);
 
-  Future<Result<List<Hero>>> call(String query) async {
+  Future<Result<List<SuperHero>>> call(String query) async {
     try {
-      return Result.success(await _heroRepository.getSearchHeros(query));
+      final result = await _heroRepository.getSearchHeros(query);
+      return Result.success(result);
     } catch (e) {
       return Result.error(e.toString());
     }

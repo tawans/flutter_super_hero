@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'hero.dart';
+part of 'super_hero.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Hero _$HeroFromJson(Map<String, dynamic> json) {
-  return _Hero.fromJson(json);
+SuperHero _$SuperHeroFromJson(Map<String, dynamic> json) {
+  return _SuperHero.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Hero {
+mixin _$SuperHero {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   Powerstats get powerstats => throw _privateConstructorUsedError;
@@ -31,13 +31,14 @@ mixin _$Hero {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $HeroCopyWith<Hero> get copyWith => throw _privateConstructorUsedError;
+  $SuperHeroCopyWith<SuperHero> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HeroCopyWith<$Res> {
-  factory $HeroCopyWith(Hero value, $Res Function(Hero) then) =
-      _$HeroCopyWithImpl<$Res, Hero>;
+abstract class $SuperHeroCopyWith<$Res> {
+  factory $SuperHeroCopyWith(SuperHero value, $Res Function(SuperHero) then) =
+      _$SuperHeroCopyWithImpl<$Res, SuperHero>;
   @useResult
   $Res call(
       {String id,
@@ -58,9 +59,9 @@ abstract class $HeroCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$HeroCopyWithImpl<$Res, $Val extends Hero>
-    implements $HeroCopyWith<$Res> {
-  _$HeroCopyWithImpl(this._value, this._then);
+class _$SuperHeroCopyWithImpl<$Res, $Val extends SuperHero>
+    implements $SuperHeroCopyWith<$Res> {
+  _$SuperHeroCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -165,9 +166,10 @@ class _$HeroCopyWithImpl<$Res, $Val extends Hero>
 }
 
 /// @nodoc
-abstract class _$$_HeroCopyWith<$Res> implements $HeroCopyWith<$Res> {
-  factory _$$_HeroCopyWith(_$_Hero value, $Res Function(_$_Hero) then) =
-      __$$_HeroCopyWithImpl<$Res>;
+abstract class _$$_SuperHeroCopyWith<$Res> implements $SuperHeroCopyWith<$Res> {
+  factory _$$_SuperHeroCopyWith(
+          _$_SuperHero value, $Res Function(_$_SuperHero) then) =
+      __$$_SuperHeroCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -195,9 +197,11 @@ abstract class _$$_HeroCopyWith<$Res> implements $HeroCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
-    implements _$$_HeroCopyWith<$Res> {
-  __$$_HeroCopyWithImpl(_$_Hero _value, $Res Function(_$_Hero) _then)
+class __$$_SuperHeroCopyWithImpl<$Res>
+    extends _$SuperHeroCopyWithImpl<$Res, _$_SuperHero>
+    implements _$$_SuperHeroCopyWith<$Res> {
+  __$$_SuperHeroCopyWithImpl(
+      _$_SuperHero _value, $Res Function(_$_SuperHero) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -212,7 +216,7 @@ class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
     Object? connections = null,
     Object? image = null,
   }) {
-    return _then(_$_Hero(
+    return _then(_$_SuperHero(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -251,8 +255,8 @@ class __$$_HeroCopyWithImpl<$Res> extends _$HeroCopyWithImpl<$Res, _$_Hero>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Hero implements _Hero {
-  const _$_Hero(
+class _$_SuperHero implements _SuperHero {
+  const _$_SuperHero(
       {required this.id,
       required this.name,
       required this.powerstats,
@@ -262,7 +266,8 @@ class _$_Hero implements _Hero {
       required this.connections,
       required this.image});
 
-  factory _$_Hero.fromJson(Map<String, dynamic> json) => _$$_HeroFromJson(json);
+  factory _$_SuperHero.fromJson(Map<String, dynamic> json) =>
+      _$$_SuperHeroFromJson(json);
 
   @override
   final String id;
@@ -283,14 +288,14 @@ class _$_Hero implements _Hero {
 
   @override
   String toString() {
-    return 'Hero(id: $id, name: $name, powerstats: $powerstats, biography: $biography, appearance: $appearance, work: $work, connections: $connections, image: $image)';
+    return 'SuperHero(id: $id, name: $name, powerstats: $powerstats, biography: $biography, appearance: $appearance, work: $work, connections: $connections, image: $image)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Hero &&
+            other is _$_SuperHero &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.powerstats, powerstats) ||
@@ -313,19 +318,19 @@ class _$_Hero implements _Hero {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HeroCopyWith<_$_Hero> get copyWith =>
-      __$$_HeroCopyWithImpl<_$_Hero>(this, _$identity);
+  _$$_SuperHeroCopyWith<_$_SuperHero> get copyWith =>
+      __$$_SuperHeroCopyWithImpl<_$_SuperHero>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HeroToJson(
+    return _$$_SuperHeroToJson(
       this,
     );
   }
 }
 
-abstract class _Hero implements Hero {
-  const factory _Hero(
+abstract class _SuperHero implements SuperHero {
+  const factory _SuperHero(
       {required final String id,
       required final String name,
       required final Powerstats powerstats,
@@ -333,9 +338,10 @@ abstract class _Hero implements Hero {
       required final Appearance appearance,
       required final Work work,
       required final Connections connections,
-      required final Image image}) = _$_Hero;
+      required final Image image}) = _$_SuperHero;
 
-  factory _Hero.fromJson(Map<String, dynamic> json) = _$_Hero.fromJson;
+  factory _SuperHero.fromJson(Map<String, dynamic> json) =
+      _$_SuperHero.fromJson;
 
   @override
   String get id;
@@ -355,5 +361,6 @@ abstract class _Hero implements Hero {
   Image get image;
   @override
   @JsonKey(ignore: true)
-  _$$_HeroCopyWith<_$_Hero> get copyWith => throw _privateConstructorUsedError;
+  _$$_SuperHeroCopyWith<_$_SuperHero> get copyWith =>
+      throw _privateConstructorUsedError;
 }

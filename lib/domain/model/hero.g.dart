@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hero.dart';
+part of 'super_hero.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Hero _$$_HeroFromJson(Map<String, dynamic> json) => _$_Hero(
+_$_SuperHero _$$_SuperHeroFromJson(Map<String, dynamic> json) => _$_SuperHero(
       id: json['id'] as String,
       name: json['name'] as String,
       powerstats:
@@ -20,7 +20,8 @@ _$_Hero _$$_HeroFromJson(Map<String, dynamic> json) => _$_Hero(
       image: Image.fromJson(json['image'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_HeroToJson(_$_Hero instance) => <String, dynamic>{
+Map<String, dynamic> _$$_SuperHeroToJson(_$_SuperHero instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'powerstats': instance.powerstats,

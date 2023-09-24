@@ -5,14 +5,20 @@ import 'package:flutter_super_hero/presentation/util/hex_color.dart';
 
 Widget searchBarUi(BuildContext context, TextEditingController controller,
     HomeViewModel viewModel) {
+  final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+  final screenWidth = MediaQuery.of(context).size.width;
+  final searchBarWidth = !isPortrait
+      ? screenWidth - 136
+      : screenWidth - 18; // 세로 모드와 가로 모드에 따라 너비 설정
+
   return Padding(
-    padding: const EdgeInsets.only(top: 8.0, left: 18),
+    padding: const EdgeInsets.symmetric(horizontal: 8.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: searchBarWidth,
           height: 64,
           child: Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -37,7 +43,7 @@ Widget searchBarUi(BuildContext context, TextEditingController controller,
                         },
                         controller: controller,
                         cursorColor: AppTheme.heroBlue,
-                        autofocus: true,
+                        autofocus: false,
                         style: const TextStyle(
                           decorationThickness: 0,
                           fontFamily: 'Pretendard',
@@ -47,7 +53,7 @@ Widget searchBarUi(BuildContext context, TextEditingController controller,
                         ),
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: 'Search Name',
+                          hintText: 'Search Your Hero Name',
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -73,9 +79,6 @@ Widget searchBarUi(BuildContext context, TextEditingController controller,
             ),
           ),
         ),
-        const Expanded(
-          child: SizedBox(),
-        )
       ],
     ),
   );

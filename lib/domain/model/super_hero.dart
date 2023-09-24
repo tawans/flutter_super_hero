@@ -10,8 +10,8 @@ part 'hero.freezed.dart';
 part 'hero.g.dart';
 
 @freezed
-class Hero with _$Hero {
-  const factory Hero({
+class SuperHero with _$SuperHero {
+  const factory SuperHero({
     required String id,
     required String name,
     required Powerstats powerstats,
@@ -20,7 +20,8 @@ class Hero with _$Hero {
     required Work work,
     required Connections connections,
     required Image image,
-  }) = _Hero;
+  }) = _SuperHero;
 
-  factory Hero.fromJson(Map<String, dynamic> json) => _$HeroFromJson(json);
+  factory SuperHero.fromJson(Map<String, dynamic> json) =>
+      _$SuperHeroFromJson(json);
 }

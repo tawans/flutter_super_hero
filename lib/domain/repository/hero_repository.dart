@@ -1,5 +1,6 @@
-import 'package:flutter_super_hero/domain/model/hero.dart';
+import 'package:flutter_super_hero/domain/model/super_hero.dart';
 
 abstract interface class HeroRepository {
-  Future<List<Hero>> getSearchHeros(String id);
+  Future<List<SuperHero>> getSearchHeros(String query);
+  Future<SuperHero> getHeroId(String id);
 }

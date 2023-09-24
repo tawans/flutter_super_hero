@@ -15,11 +15,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_super_hero/main.dart';
 
 void main() {
-  test('http 통신 테스트', () async {
+  test('http 통신 search 테스트', () async {
     //dio 통신 테스트
     var dio = Dio();
     var response =
         await dio.get('https://superheroapi.com/api/$apiKey/search/batman');
+    print('11 ${response.statusCode} 11');
+    print(response.data.toString());
+
+    expect(response.statusCode, 200);
+    expect(response.data['response'], 'success');
+  });
+
+  test('http 통신 fetchId 테스트', () async {
+    //dio 통신 테스트
+    var dio = Dio();
+    var response = await dio.get('https://superheroapi.com/api/$apiKey/644');
     print('11 ${response.statusCode} 11');
     print(response.data.toString());
 

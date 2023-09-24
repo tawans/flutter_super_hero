@@ -1,49 +1,22 @@
 import 'dart:convert';
 
-HerosDto herosDtoFromJson(String str) => HerosDto.fromJson(json.decode(str));
+HeroIdDto heroIdDtoFromJson(String str) => HeroIdDto.fromJson(json.decode(str));
 
-String herosDtoToJson(HerosDto data) => json.encode(data.toJson());
+String heroIdDtoToJson(HeroIdDto data) => json.encode(data.toJson());
 
-class HerosDto {
+class HeroIdDto {
   String? response;
-  String? resultsFor;
-  List<SearchHeroResult>? results;
-
-  HerosDto({
-    this.response,
-    this.resultsFor,
-    this.results,
-  });
-
-  factory HerosDto.fromJson(Map<String, dynamic> json) => HerosDto(
-        response: json["response"],
-        resultsFor: json["results-for"],
-        results: json["results"] == null
-            ? []
-            : List<SearchHeroResult>.from(
-                json["results"]!.map((x) => SearchHeroResult.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "response": response,
-        "results-for": resultsFor,
-        "results": results == null
-            ? []
-            : List<dynamic>.from(results!.map((x) => x.toJson())),
-      };
-}
-
-class SearchHeroResult {
   String? id;
   String? name;
-  PowerstatsDto? powerstats;
-  BiographyDto? biography;
-  AppearanceDto? appearance;
-  WorkDto? work;
-  ConnectionsDto? connections;
-  ImageDto? image;
+  PowerstatsIdDto? powerstats;
+  BiographyIdDto? biography;
+  AppearanceIdDto? appearance;
+  WorkIdDto? work;
+  ConnectionsIdDto? connections;
+  ImageIdDto? image;
 
-  SearchHeroResult({
+  HeroIdDto({
+    this.response,
     this.id,
     this.name,
     this.powerstats,
@@ -54,27 +27,29 @@ class SearchHeroResult {
     this.image,
   });
 
-  factory SearchHeroResult.fromJson(Map<String, dynamic> json) =>
-      SearchHeroResult(
+  factory HeroIdDto.fromJson(Map<String, dynamic> json) => HeroIdDto(
+        response: json["response"],
         id: json["id"],
         name: json["name"],
         powerstats: json["powerstats"] == null
             ? null
-            : PowerstatsDto.fromJson(json["powerstats"]),
+            : PowerstatsIdDto.fromJson(json["powerstats"]),
         biography: json["biography"] == null
             ? null
-            : BiographyDto.fromJson(json["biography"]),
+            : BiographyIdDto.fromJson(json["biography"]),
         appearance: json["appearance"] == null
             ? null
-            : AppearanceDto.fromJson(json["appearance"]),
-        work: json["work"] == null ? null : WorkDto.fromJson(json["work"]),
+            : AppearanceIdDto.fromJson(json["appearance"]),
+        work: json["work"] == null ? null : WorkIdDto.fromJson(json["work"]),
         connections: json["connections"] == null
             ? null
-            : ConnectionsDto.fromJson(json["connections"]),
-        image: json["image"] == null ? null : ImageDto.fromJson(json["image"]),
+            : ConnectionsIdDto.fromJson(json["connections"]),
+        image:
+            json["image"] == null ? null : ImageIdDto.fromJson(json["image"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "response": response,
         "id": id,
         "name": name,
         "powerstats": powerstats?.toJson(),
@@ -86,7 +61,7 @@ class SearchHeroResult {
       };
 }
 
-class AppearanceDto {
+class AppearanceIdDto {
   String? gender;
   String? race;
   List<String>? height;
@@ -94,7 +69,7 @@ class AppearanceDto {
   String? eyeColor;
   String? hairColor;
 
-  AppearanceDto({
+  AppearanceIdDto({
     this.gender,
     this.race,
     this.height,
@@ -103,7 +78,8 @@ class AppearanceDto {
     this.hairColor,
   });
 
-  factory AppearanceDto.fromJson(Map<String, dynamic> json) => AppearanceDto(
+  factory AppearanceIdDto.fromJson(Map<String, dynamic> json) =>
+      AppearanceIdDto(
         gender: json["gender"],
         race: json["race"],
         height: json["height"] == null
@@ -128,7 +104,7 @@ class AppearanceDto {
       };
 }
 
-class BiographyDto {
+class BiographyIdDto {
   String? fullName;
   String? alterEgos;
   List<String>? aliases;
@@ -137,7 +113,7 @@ class BiographyDto {
   String? publisher;
   String? alignment;
 
-  BiographyDto({
+  BiographyIdDto({
     this.fullName,
     this.alterEgos,
     this.aliases,
@@ -147,7 +123,7 @@ class BiographyDto {
     this.alignment,
   });
 
-  factory BiographyDto.fromJson(Map<String, dynamic> json) => BiographyDto(
+  factory BiographyIdDto.fromJson(Map<String, dynamic> json) => BiographyIdDto(
         fullName: json["full-name"],
         alterEgos: json["alter-egos"],
         aliases: json["aliases"] == null
@@ -171,16 +147,17 @@ class BiographyDto {
       };
 }
 
-class ConnectionsDto {
+class ConnectionsIdDto {
   String? groupAffiliation;
   String? relatives;
 
-  ConnectionsDto({
+  ConnectionsIdDto({
     this.groupAffiliation,
     this.relatives,
   });
 
-  factory ConnectionsDto.fromJson(Map<String, dynamic> json) => ConnectionsDto(
+  factory ConnectionsIdDto.fromJson(Map<String, dynamic> json) =>
+      ConnectionsIdDto(
         groupAffiliation: json["group-affiliation"],
         relatives: json["relatives"],
       );
@@ -191,14 +168,14 @@ class ConnectionsDto {
       };
 }
 
-class ImageDto {
+class ImageIdDto {
   String? url;
 
-  ImageDto({
+  ImageIdDto({
     this.url,
   });
 
-  factory ImageDto.fromJson(Map<String, dynamic> json) => ImageDto(
+  factory ImageIdDto.fromJson(Map<String, dynamic> json) => ImageIdDto(
         url: json["url"],
       );
 
@@ -207,7 +184,7 @@ class ImageDto {
       };
 }
 
-class PowerstatsDto {
+class PowerstatsIdDto {
   String? intelligence;
   String? strength;
   String? speed;
@@ -215,7 +192,7 @@ class PowerstatsDto {
   String? power;
   String? combat;
 
-  PowerstatsDto({
+  PowerstatsIdDto({
     this.intelligence,
     this.strength,
     this.speed,
@@ -224,7 +201,8 @@ class PowerstatsDto {
     this.combat,
   });
 
-  factory PowerstatsDto.fromJson(Map<String, dynamic> json) => PowerstatsDto(
+  factory PowerstatsIdDto.fromJson(Map<String, dynamic> json) =>
+      PowerstatsIdDto(
         intelligence: json["intelligence"],
         strength: json["strength"],
         speed: json["speed"],
@@ -243,16 +221,16 @@ class PowerstatsDto {
       };
 }
 
-class WorkDto {
+class WorkIdDto {
   String? occupation;
   String? base;
 
-  WorkDto({
+  WorkIdDto({
     this.occupation,
     this.base,
   });
 
-  factory WorkDto.fromJson(Map<String, dynamic> json) => WorkDto(
+  factory WorkIdDto.fromJson(Map<String, dynamic> json) => WorkIdDto(
         occupation: json["occupation"],
         base: json["base"],
       );

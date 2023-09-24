@@ -1,7 +1,7 @@
-import 'dart:math';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/presentation/components/search_bar_ui.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_state.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_ui_event.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart
 
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -20,19 +21,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const _pageSize = 20;
   final controller = TextEditingController();
-  List<double> widgetHeights = [];
-  List<Color> widgetColors = [];
+
+  final PagingController<int, SuperHero> _pagingController =
+      PagingController(firstPageKey: 0);
 
   @override
   void initState() {
     super.initState();
-
-    for (int i = 0; i < 100; i++) {
-      widgetHeights.add((Random().nextInt(256) + 64).toDouble());
-      widgetColors.add(
-          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
-    }
 
     Future.microtask(() {
       context.read<HomeViewModel>().eventStream.listen((event) {
@@ -58,6 +55,51 @@ class _HomeScreenState extends State<HomeScreen> {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
 
+    const List<List<String>> popularHeroList = [
+      [
+        '644',
+        '263',
+        '313',
+        '370',
+        '622',
+        '40',
+        '332',
+        '732',
+        '149',
+        '106',
+        '69',
+        '107',
+      ],
+      [
+        'Superman',
+        'Flash',
+        'Hawkeye',
+        'Joker',
+        'Spiderman',
+        'Thor',
+        'Hulk',
+        'Ironman',
+        'Captain America',
+        'Panther',
+        'Batman',
+        'Black Widow',
+      ],
+      [
+        'https://www.superherodb.com/pictures2/portraits/10/100/791.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/891.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/73.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/719.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/10647.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/140.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/83.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/85.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/274.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/247.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/639.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/248.jpg',
+      ],
+    ];
+
     return Container(
       color: AppTheme.nearlyWhite,
       child: Column(
@@ -67,104 +109,91 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           appBarUI(),
           searchBarUi(context, controller, viewModel),
+          const SizedBox(
+            height: 4,
+          ),
           if (state.heros.isNotEmpty)
-            searchGridView(state)
+            searchGridView(state, popularHeroList)
           else
-            staggeredGridView(),
+            staggeredGridView(
+              popularHeroList,
+            ),
         ],
       ),
     );
   }
 
-  Widget staggeredGridView() {
-    const List<String> imageList = [
-      'https://www.superherodb.com/pictures2/portraits/10/100/791.jpg',
-      'https://cdn.pixabay.com/photo/2020/12/15/16/25/clock-5834193__340.jpg',
-      'https://cdn.pixabay.com/photo/2020/09/18/19/31/laptop-5582775_960_720.jpg',
-      'https://media.istockphoto.com/photos/woman-kayaking-in-fjord-in-norway-picture-id1059380230?b=1&k=6&m=1059380230&s=170667a&w=0&h=kA_A_XrhZJjw2bo5jIJ7089-VktFK0h0I4OWDqaac0c=',
-      'https://cdn.pixabay.com/photo/2019/11/05/00/53/cellular-4602489_960_720.jpg',
-      'https://cdn.pixabay.com/photo/2017/02/12/10/29/christmas-2059698_960_720.jpg',
-      'https://cdn.pixabay.com/photo/2020/01/29/17/09/snowboard-4803050_960_720.jpg',
-      'https://www.superherodb.com/pictures2/portraits/10/100/639.jpg',
-      'https://cdn.pixabay.com/photo/2020/11/22/17/28/cat-5767334_960_720.jpg',
-      'https://cdn.pixabay.com/photo/2020/12/13/16/22/snow-5828736_960_720.jpg',
-      'https://cdn.pixabay.com/photo/2020/12/09/09/27/women-5816861_960_720.jpg',
-      'https://cdn.pixabay.com/photo/2020/12/09/09/27/women-5816861_960_720.jpg',
-    ];
-
-    const List<String> textList = [
-      'Spiderman',
-      'Batman',
-      'Superman',
-      'Joker',
-      'Ironman',
-      'Spiderman',
-      'Thor',
-      'Hulk',
-      'Captain America',
-      'Black Widow',
-      'Black Panther',
-      'Flash',
-      'Taewan',
-    ];
-
-    return Column(
-      children: [
-        const Text(
-          'Popular Hero',
-          // style: TextStyle(fontFamily: , fontSize: 20),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: GridView.custom(
-              gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 4,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                repeatPattern: QuiltedGridRepeatPattern.inverted,
-                pattern: [
-                  const QuiltedGridTile(2, 2),
-                  const QuiltedGridTile(1, 1),
-                  const QuiltedGridTile(1, 1),
-                  const QuiltedGridTile(1, 2),
-                ],
-              ),
-              childrenDelegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      //border: Border.all(color: AppTheme.grey, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.purple[100 * (index % 10)],
-                    ),
-                    alignment: Alignment.center,
-                    // child: (
-                    //   'List Item $index',
-                    //   style: const TextStyle(
-                    //       fontSize: 30, fontWeight: FontWeight.bold),
-                    // ),
-                    child: Stack(
-                      children: [
-                        Text(textList[index],
-                            style: const TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold)),
-                        Image.network(
-                          imageList[index],
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ],
-                    ),
-                  );
+  Widget staggeredGridView(popularHeroList) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: GridView.custom(
+          gridDelegate: SliverQuiltedGridDelegate(
+            crossAxisCount: 4,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            repeatPattern: QuiltedGridRepeatPattern.inverted,
+            pattern: [
+              const QuiltedGridTile(2, 2),
+              const QuiltedGridTile(1, 1),
+              const QuiltedGridTile(1, 1),
+              const QuiltedGridTile(1, 2),
+            ],
+          ),
+          childrenDelegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  context.push('/detail/${popularHeroList[0][index]}');
                 },
-                childCount: 12,
-              ),
-            ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppTheme.heroBlue,
+                  ),
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: popularHeroList[2][index],
+                        placeholder: (context, url) => loadingImage(context),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 30,
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.2),
+                          child: Text(
+                            popularHeroList[1][index],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            childCount: 12,
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -225,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget searchGridView(HomeState state) {
+  Widget searchGridView(HomeState state, popularHeroList) {
     return Expanded(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -248,37 +277,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(6.0),
                 child: InkWell(
                   onTap: () {
-                    context.push('/search');
+                    context.push('/detail/${popularHeroList[0][index]}');
                   },
-                  child: Hero(
-                    tag: hero.id,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      elevation: 4.0,
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Image.network(
-                              hero.image.url,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 140,
-                            ),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    elevation: 4.0,
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0),
+                          child: CachedNetworkImage(
+                            imageUrl: hero.image.url,
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            placeholder: (context, url) =>
+                                loadingImage(context),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 140,
                           ),
-                          Text(
-                            hero.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              letterSpacing: 0.27,
-                              color: AppTheme.darkerText,
-                            ),
+                        ),
+                        Text(
+                          hero.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            letterSpacing: 0.27,
+                            color: AppTheme.darkerText,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -286,6 +316,33 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         },
+      ),
+    );
+  }
+
+  Widget loadingImage(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 140,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              'assets/lottie/loading.json',
+              width: 60,
+              height: 60,
+            ),
+            const Text(
+              '로딩중',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
 class DefaultLayout extends StatefulWidget {
@@ -59,12 +60,12 @@ class _DefaultLayoutState extends State<DefaultLayout> {
 
   Widget _buildBottomNavigationBar() {
     return AnimatedBottomNavigationBar(
+      inactiveColor: Colors.grey[500],
       gapLocation: GapLocation.none,
       icons: const [
         Icons.home,
-        Icons.search,
+        Icons.favorite,
         Icons.person,
-        Icons.settings,
       ],
       activeIndex: getIndex(context),
       onTap: (index) {
@@ -79,7 +80,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
             context.go('/settings');
         }
       },
-      activeColor: Colors.deepPurple,
+      activeColor: AppTheme.heroBlue,
     );
   }
 }

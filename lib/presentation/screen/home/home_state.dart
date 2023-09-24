@@ -1,4 +1,4 @@
-import 'package:flutter_super_hero/domain/model/hero.dart';
+import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -9,7 +9,7 @@ part 'home_state.g.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
-    @Default([]) List<Hero> heros,
+    @Default([]) List<SuperHero> heros,
     @Default(false) bool isLoading,
     @Default(false) bool isSearching,
   }) = _HomeState;

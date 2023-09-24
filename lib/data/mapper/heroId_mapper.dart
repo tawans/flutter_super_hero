@@ -1,3 +1,4 @@
+import 'package:flutter_super_hero/data/dto/hero_id_dto.dart';
 import 'package:flutter_super_hero/data/dto/heros_dto.dart';
 import 'package:flutter_super_hero/domain/model/appearance.dart';
 import 'package:flutter_super_hero/domain/model/biography.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_super_hero/domain/model/image.dart';
 import 'package:flutter_super_hero/domain/model/powerstats.dart';
 import 'package:flutter_super_hero/domain/model/work.dart';
 
-extension HeroMapper on SearchHeroResult {
+extension HeroMapper on HeroIdDto {
   SuperHero toHero() {
     return SuperHero(
       id: id ?? '',

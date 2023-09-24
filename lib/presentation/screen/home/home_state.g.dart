@@ -8,7 +8,7 @@ part of 'home_state.dart';
 
 _$_HomeState _$$_HomeStateFromJson(Map<String, dynamic> json) => _$_HomeState(
       heros: (json['heros'] as List<dynamic>?)
-              ?.map((e) => Hero.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => SuperHero.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       isLoading: json['isLoading'] as bool? ?? false,
