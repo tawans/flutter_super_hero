@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_super_hero/data/repository/hero_repository_impl.dart';
+import 'package:flutter_super_hero/domain/use_case/get_hero_id_usecase.dart';
 import 'package:flutter_super_hero/domain/use_case/get_search_heros_usecase.dart';
 import 'package:flutter_super_hero/presentation/screen/default/default_layout.dart';
 import 'package:flutter_super_hero/presentation/screen/detail/detail_screen.dart';
+import 'package:flutter_super_hero/presentation/screen/detail/detail_view_model.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart';
 import 'package:flutter_super_hero/presentation/screen/profile_screen.dart';
@@ -38,19 +40,42 @@ final router = GoRouter(
           path: '/detail/:heroId',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
-              key: state.pageKey,
-              child: DetailScreen(heroId: state.pathParameters['heroId']),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity:
-                      CurveTween(curve: Curves.easeInCirc).animate(animation),
-                  child: child,
-                );
-              },
-            );
+                key: state.pageKey,
+                child: ChangeNotifierProvider(
+                  create: (_) => DetailViewModel(
+                    GetheroIdUseCase(
+                      HeroRepositoryImpl(),
+                    ),
+                  ),
+                  child: DetailScreen(heroId: state.pathParameters['heroId']),
+                ),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity:
+                        CurveTween(curve: Curves.easeInCirc).animate(animation),
+                    child: child,
+                  );
+                });
           },
         ),
+        // GoRoute(
+        //   path: '/detail/:heroId',
+        //   pageBuilder: (context, state) {
+        //     return CustomTransitionPage(
+        //       key: state.pageKey,
+        //       child: DetailScreen(heroId: state.pathParameters['heroId']),
+        // transitionsBuilder:
+        //     (context, animation, secondaryAnimation, child) {
+        //   return FadeTransition(
+        //     opacity:
+        //         CurveTween(curve: Curves.easeInCirc).animate(animation),
+        //     child: child,
+        //   );
+        //       },
+        //     );
+        //   },
+        // ),
         GoRoute(
           path: '/search',
           builder: (_, state) {

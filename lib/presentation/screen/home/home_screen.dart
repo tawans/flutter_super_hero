@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -23,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   static const _pageSize = 20;
   final controller = TextEditingController();
+
+  Timer? _debounceTimer;
 
   final PagingController<int, SuperHero> _pagingController =
       PagingController(firstPageKey: 0);
@@ -54,6 +58,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
+    const isActive = true;
+
+    controller.addListener(() {
+      if (_debounceTimer?.isActive ?? false) {
+        _debounceTimer?.cancel();
+      }
+
+      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+        context.read<HomeViewModel>().fetchHeros(controller.text);
+      });
+
+      if (controller.text.isEmpty) {
+        _pagingController.refresh();
+      }
+    });
 
     const List<List<String>> popularHeroList = [
       [
@@ -62,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
         '313',
         '370',
         '622',
-        '40',
+        '659',
         '332',
         '732',
         '149',
         '106',
-        '69',
+        '70',
         '107',
       ],
       [
@@ -112,8 +131,21 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 4,
           ),
-          if (state.heros.isNotEmpty)
-            searchGridView(state, popularHeroList)
+          if (state.heros.isNotEmpty && controller.text.isNotEmpty)
+            state.isLoading
+                ? SizedBox(
+                    height: 500,
+                    child: Center(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Lottie.asset(
+                            'assets/lottie/hero4.json',
+                            width: 500,
+                            height: 500,
+                          )),
+                    ),
+                  )
+                : searchGridView(state, popularHeroList)
           else
             staggeredGridView(
               popularHeroList,

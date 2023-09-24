@@ -1,5 +1,4 @@
 import 'package:flutter_super_hero/data/dto/hero_id_dto.dart';
-import 'package:flutter_super_hero/data/dto/heros_dto.dart';
 import 'package:flutter_super_hero/domain/model/appearance.dart';
 import 'package:flutter_super_hero/domain/model/biography.dart';
 import 'package:flutter_super_hero/domain/model/connections.dart';

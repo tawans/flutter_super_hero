@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_super_hero/data/repository/hero_repository_impl.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
-import 'package:flutter_super_hero/domain/repository/hero_repository.dart';
+import 'package:flutter_super_hero/presentation/screen/detail/detail_ui_event.dart';
+import 'package:flutter_super_hero/presentation/screen/detail/detail_view_model.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
   final String? heroId;
@@ -37,6 +38,18 @@ class _DetailScreenState extends State<DetailScreen>
 
     setData();
     super.initState();
+
+    Future.microtask(() {
+      context.read<DetailViewModel>().eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBarDetail(:final message):
+            final snackBar = SnackBar(content: Text(message));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          case EndLoadingDetail():
+            print('로딩 끝');
+        }
+      });
+    });
   }
 
   Future<void> setData() async {
@@ -53,6 +66,9 @@ class _DetailScreenState extends State<DetailScreen>
     setState(() {
       opacity3 = 1.0;
     });
+
+    // await Future.microtask(
+    //     () => context.read<DetailViewModel>().fetchHero(widget.heroId ?? ''));
   }
 
   @override
@@ -61,13 +77,35 @@ class _DetailScreenState extends State<DetailScreen>
         (MediaQuery.of(context).size.width / 1.2) +
         24.0;
 
-    final HeroRepository heroRepository = HeroRepositoryImpl();
-    heroRepository.getHeroId(widget.heroId!).then((value) {
-      if (!mounted) return;
-      setState(() {
-        hero = value;
-      });
-    });
+    final viewModel = context.watch<DetailViewModel>();
+    viewModel.fetchHero(widget.heroId ?? '');
+    final state = viewModel.state;
+
+    hero = state.hero;
+
+    int parsePowerStat(String? value) {
+      try {
+        return int.parse(value ?? '0');
+      } catch (e) {
+        return 0; // 파싱할 수 없으면 0으로 처리
+      }
+    }
+
+    final String averagePowerstats = ((parsePowerStat(hero?.powerstats.combat) +
+                parsePowerStat(hero?.powerstats.durability) +
+                parsePowerStat(hero?.powerstats.intelligence) +
+                parsePowerStat(hero?.powerstats.power) +
+                parsePowerStat(hero?.powerstats.speed) +
+                parsePowerStat(hero?.powerstats.strength)) /
+            6)
+        .toStringAsFixed(0);
+
+    // heroRepository.getHeroId(widget.heroId!).then((value) {
+    //   if (!mounted) return;
+    //   setState(() {
+    //     hero = value;
+    //   });
+    // });
 
     if (hero == null) {
       return const Center(
@@ -149,11 +187,11 @@ class _DetailScreenState extends State<DetailScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                const Text(
+                                Text(
                                   //'\$28.99',
-                                  'Clark Kent',
+                                  hero?.biography.fullName ?? 'Full Name',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
@@ -161,20 +199,20 @@ class _DetailScreenState extends State<DetailScreen>
                                   ),
                                 ),
                                 Container(
-                                  child: const Row(
+                                  child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '865',
+                                        averagePowerstats,
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.w200,
                                           fontSize: 22,
                                           letterSpacing: 0.27,
                                           color: AppTheme.grey,
                                         ),
                                       ),
-                                      Icon(
-                                        Icons.favorite,
+                                      const Icon(
+                                        Icons.star,
                                         color: AppTheme.heroBlue,
                                         size: 24,
                                       ),
@@ -193,11 +231,21 @@ class _DetailScreenState extends State<DetailScreen>
                                 padding: const EdgeInsets.all(8),
                                 child: Row(
                                   children: <Widget>[
-                                    getTimeBoxUI('94', 'intelligence'),
-                                    getTimeBoxUI('100', 'strength'),
-                                    getTimeBoxUI('100', 'speed'),
-                                    getTimeBoxUI('100', 'durability'),
-                                    getTimeBoxUI('100', 'speed'),
+                                    getTimeBoxUI(
+                                        hero?.powerstats.power ?? '0', 'power'),
+                                    getTimeBoxUI(
+                                        hero?.powerstats.strength ?? '0',
+                                        'strength'),
+                                    getTimeBoxUI(
+                                        hero?.powerstats.speed ?? '0', 'speed'),
+                                    getTimeBoxUI(
+                                        hero?.powerstats.durability ?? '0',
+                                        'durability'),
+                                    getTimeBoxUI(
+                                        hero?.powerstats.intelligence ?? '0',
+                                        'intelligence'),
+                                    getTimeBoxUI(hero?.powerstats.combat ?? '0',
+                                        'combat'),
                                   ],
                                 ),
                               ),
@@ -207,21 +255,188 @@ class _DetailScreenState extends State<DetailScreen>
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 500),
                               opacity: opacity2,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                    left: 16, right: 16, top: 8, bottom: 8),
-                                child: Text(
-                                  'gender: Male, race: Kryptonian, height: 6'
-                                  '3 191 cm, weight: 225 lb, 101 kg, eye-color:a Blue, hair-color: Black, aliases: Clark Joseph Kent,The Man of Steel,the Man of Tomorrow,the Last Son of Krypton,Big Blue,the Metropolis Marvel,the Action Ac',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 14,
-                                    letterSpacing: 0.27,
-                                    color: AppTheme.grey,
-                                  ),
-                                  maxLines: 5,
-                                  overflow: TextOverflow.ellipsis,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.biography.aliases.join(', ') ??
+                                            'Aliases',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.biography.firstAppearance ??
+                                            'First Appearance',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.biography.placeOfBirth ??
+                                            'Place Of Birth',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.biography.publisher ??
+                                            'Publisher',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.biography.alignment ??
+                                            'Alignment',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.work.occupation ?? 'Occupation',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.work.base ?? 'Base',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 8),
+                                      child: Text(
+                                        hero?.connections.groupAffiliation ??
+                                            'Group Affiliation',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          top: 8,
+                                          bottom: 16),
+                                      child: Text(
+                                        hero?.connections.relatives ??
+                                            'Relatives',
+                                        textAlign: TextAlign.justify,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.darkText,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

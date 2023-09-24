@@ -21,7 +21,10 @@ class HomeViewModel with ChangeNotifier {
 
   void fetchHeros(String query) async {
     if (query.isEmpty) {
-      _eventController.add(const ShowSnackBar('검색어가 없습니다'));
+      // 검색어가 비어 있으면 로딩 없이 StaggeredGridView를 표시
+      _state = state.copyWith(isLoading: false);
+      notifyListeners();
+      _eventController.add(const EndLoading());
       return;
     }
 
