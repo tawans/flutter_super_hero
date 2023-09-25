@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_super_hero/domain/model/appearance.dart';
 import 'package:flutter_super_hero/domain/model/biography.dart';
 import 'package:flutter_super_hero/domain/model/connections.dart';
@@ -6,11 +7,8 @@ import 'package:flutter_super_hero/domain/model/powerstats.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/domain/model/work.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 
 part 'detail_state.freezed.dart';
-
-part 'detail_state.g.dart';
 
 @freezed
 class DetailState with _$DetailState {
@@ -55,7 +53,4 @@ class DetailState with _$DetailState {
     @Default(false) bool isShowSnackBar,
     @Default('') String message,
   }) = _DetailState;
-
-  factory DetailState.fromJson(Map<String, Object?> json) =>
-      _$DetailStateFromJson(json);
 }

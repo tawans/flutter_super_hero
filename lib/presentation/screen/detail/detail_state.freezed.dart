@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-DetailState _$DetailStateFromJson(Map<String, dynamic> json) {
-  return _DetailState.fromJson(json);
-}
-
 /// @nodoc
 mixin _$DetailState {
   SuperHero get hero => throw _privateConstructorUsedError;
@@ -26,7 +22,6 @@ mixin _$DetailState {
   bool get isShowSnackBar => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DetailStateCopyWith<DetailState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -162,7 +157,7 @@ class __$$_DetailStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_DetailState with DiagnosticableTreeMixin implements _DetailState {
   const _$_DetailState(
       {this.hero = const SuperHero(
@@ -197,9 +192,6 @@ class _$_DetailState with DiagnosticableTreeMixin implements _DetailState {
       this.isLoading = false,
       this.isShowSnackBar = false,
       this.message = ''});
-
-  factory _$_DetailState.fromJson(Map<String, dynamic> json) =>
-      _$$_DetailStateFromJson(json);
 
   @override
   @JsonKey()
@@ -249,7 +241,6 @@ class _$_DetailState with DiagnosticableTreeMixin implements _DetailState {
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, hero, isFavorite, isLoading, isShowSnackBar, message);
@@ -259,13 +250,6 @@ class _$_DetailState with DiagnosticableTreeMixin implements _DetailState {
   @pragma('vm:prefer-inline')
   _$$_DetailStateCopyWith<_$_DetailState> get copyWith =>
       __$$_DetailStateCopyWithImpl<_$_DetailState>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_DetailStateToJson(
-      this,
-    );
-  }
 }
 
 abstract class _DetailState implements DetailState {
@@ -275,9 +259,6 @@ abstract class _DetailState implements DetailState {
       final bool isLoading,
       final bool isShowSnackBar,
       final String message}) = _$_DetailState;
-
-  factory _DetailState.fromJson(Map<String, dynamic> json) =
-      _$_DetailState.fromJson;
 
   @override
   SuperHero get hero;
