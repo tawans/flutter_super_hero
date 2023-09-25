@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/presentation/screen/detail/detail_ui_event.dart';
@@ -122,17 +121,21 @@ class _DetailScreenState extends State<DetailScreen>
             Column(
               children: [
                 AspectRatio(
-                  aspectRatio: 1.2,
-                  child: CachedNetworkImage(
-                    imageUrl: hero?.image.url ?? '',
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
+                    aspectRatio: 1.2,
+                    child: Image.network(
+                      hero?.image.url ?? '',
+                      fit: BoxFit.cover,
+                    )
+                    // CachedNetworkImage(
+                    //   imageUrl: hero?.image.url ?? '',
+                    //   placeholder: (context, url) => const Center(
+                    //     child: CircularProgressIndicator(),
+                    //   ),
+                    //   errorWidget: (context, url, error) =>
+                    //       const Icon(Icons.error),
+                    //   fit: BoxFit.cover,
+                    // ),
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    fit: BoxFit.cover,
-                  ),
-                ),
               ],
             ),
             Positioned(

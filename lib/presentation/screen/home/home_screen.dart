@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
@@ -186,13 +185,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.center,
                   child: Stack(
                     children: [
-                      CachedNetworkImage(
-                        imageUrl: popularHeroList[2][index],
-                        placeholder: (context, url) => loadingImage(context),
+                      Image.network(
+                        popularHeroList[2][index],
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
                       ),
+                      // CachedNetworkImage(
+                      //   imageUrl: popularHeroList[2][index],
+                      //   placeholder: (context, url) => loadingImage(context),
+                      //   fit: BoxFit.cover,
+                      //   width: double.infinity,
+                      //   height: double.infinity,
+                      // ),
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -319,18 +324,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: CachedNetworkImage(
-                            imageUrl: hero.image.url,
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            placeholder: (context, url) =>
-                                loadingImage(context),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: 140,
-                          ),
-                        ),
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network(
+                              hero.image.url,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 140,
+                            )
+                            // CachedNetworkImage(
+                            //   imageUrl: hero.image.url,
+                            //   errorWidget: (context, url, error) =>
+                            //       const Icon(Icons.error),
+                            //   placeholder: (context, url) =>
+                            //       loadingImage(context),
+                            //   fit: BoxFit.cover,
+                            //   width: double.infinity,
+                            //   height: 140,
+                            // ),
+                            ),
                         Text(
                           hero.name,
                           style: const TextStyle(
