@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/presentation/components/search_bar_ui.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_riverpod.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_state.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_ui_event.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart';
@@ -11,16 +13,15 @@ import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   static const _pageSize = 20;
   final controller = TextEditingController();
 
@@ -31,17 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      context.read<HomeViewModel>().eventStream.listen((event) {
-        switch (event) {
-          case ShowSnackBar(:final message):
-            final snackBar = SnackBar(content: Text(message));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          case EndLoading():
-            print('로딩 끝');
-        }
-      });
-    });
+    // Future.microtask(() {
+    //   context.read<HomeViewModel>().eventStream.listen((event) {
+    //     switch (event) {
+    //       case ShowSnackBar(:final message):
+    //         final snackBar = SnackBar(content: Text(message));
+    //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    //       case EndLoading():
+    //         print('로딩 끝');
+    //     }
+    //   });
+    // });
   }
 
   @override
@@ -52,10 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
-    final state = viewModel.state;
+    //final viewModel = context.watch<HomeViewModel>();
+    //final state = viewModel.state;
 
-    const List<List<String>> popularHeroList = [
+    final nameName = ref.watch(nameRiverpod);
+
+    List<List<String>> popularHeroList = [
       [
         '644',
         '263',
@@ -71,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
         '107',
       ],
       [
-        'Superman',
+        //'Superman',
+        nameName,
         'Flash',
         'Hawkeye',
         'Joker',
@@ -107,17 +111,18 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: MediaQuery.of(context).padding.top,
           ),
-          appBarUI(),
-          searchBarUi(context, controller, viewModel),
+          appBarUI(nameName),
+
+          //   searchBarUi(context, controller, viewModel),
           const SizedBox(
             height: 4,
           ),
-          if (state.heros.isNotEmpty)
-            searchGridView(state, popularHeroList)
-          else
-            staggeredGridView(
-              popularHeroList,
-            ),
+          // if (state.heros.isNotEmpty)
+          //   searchGridView(state, popularHeroList)
+          // else
+          //   staggeredGridView(
+          //     popularHeroList,
+          //   ),
         ],
       ),
     );
@@ -197,27 +202,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget appBarUI() {
+  Widget appBarUI(nameName) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
-          const Expanded(
+          Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Search your',
+                  'Search your$nameName',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     letterSpacing: 0.2,
                     color: AppTheme.grey,
                   ),
                 ),
-                Row(
+                const Row(
                   children: [
                     Text(
                       'Super',

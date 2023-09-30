@@ -9,7 +9,6 @@ import 'package:flutter_super_hero/presentation/screen/profile_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/search_screen.dart';
 import 'package:flutter_super_hero/presentation/screen/settings_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 final router = GoRouter(
   initialLocation: '/home',
@@ -23,16 +22,19 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/home',
-          builder: (context, state) {
-            return ChangeNotifierProvider(
-              create: (_) => HomeViewModel(
-                GetSearchHerosUseCase(
-                  HeroRepositoryImpl(),
-                ),
-              ),
-              child: const HomeScreen(),
-            );
+          builder: (_, state) {
+            return const HomeScreen();
           },
+          // builder: (context, state) {
+          //   return ChangeNotifierProvider(
+          //     create: (_) => HomeViewModel(
+          //       GetSearchHerosUseCase(
+          //         HeroRepositoryImpl(),
+          //       ),
+          //     ),
+          //     child: const HomeScreen(),
+          //   );
+          // },
         ),
         GoRoute(
           path: '/detail/:heroId',
