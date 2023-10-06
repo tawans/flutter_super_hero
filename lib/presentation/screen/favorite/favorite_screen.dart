@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_super_hero/presentation/screen/favorite/favorite_provider.dart';
+import 'package:flutter_super_hero/presentation/util/app_theme.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:lottie/lottie.dart';
 
 class FavoriteScreen extends ConsumerStatefulWidget {
   const FavoriteScreen({super.key});
@@ -13,7 +17,6 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-
     ref.read(favoriteRiverpod.notifier).getAllHeros();
   }
 
@@ -21,11 +24,89 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(favoriteRiverpod);
 
-    return ListView.builder(
-      itemCount: state.length,
-      itemBuilder: (context, index) {
-        return ListTile(title: Text(state[index].name));
-      },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[100],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(width: 38),
+            Lottie.asset('assets/lottie/favorite_icon.json'),
+            const Text(
+              'FAVORITE HEROS',
+              style: TextStyle(
+                color: AppTheme.darkGrey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView.separated(
+              itemCount: state.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider(); // 항목 사이에 구분선 추가
+              },
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.amber[50],
+                  elevation: 4, // 카드 그림자 효과 추가
+                  child: Slidable(
+                    endActionPane:
+                        ActionPane(motion: const StretchMotion(), children: [
+                      SlidableAction(
+                        label: 'Delete',
+                        onPressed: (context) {
+                          ref
+                              .read(favoriteRiverpod.notifier)
+                              .deleteHero(state[index].id);
+                        },
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                      ),
+                    ]),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: state[index].imageUrl,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              state[index].name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

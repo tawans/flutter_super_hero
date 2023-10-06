@@ -14,4 +14,9 @@ class FavoriteRiverpod extends StateNotifier<List<FavoriteHero>> {
     List<FavoriteHero> result = await SqlCrudRepository.getAllHeros();
     state = result;
   }
+
+  void deleteHero(String id) async {
+    await SqlCrudRepository.deleteHero(id);
+    getAllHeros();
+  }
 }

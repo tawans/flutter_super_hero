@@ -367,9 +367,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final screenWidth = MediaQuery.of(context).size.width;
-    final searchBarWidth = !isPortrait
-        ? screenWidth - 136
-        : screenWidth - 18; // 세로 모드와 가로 모드에 따라 너비 설정`
+    final searchBarWidth = !isPortrait ? screenWidth - 136 : screenWidth - 18;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
