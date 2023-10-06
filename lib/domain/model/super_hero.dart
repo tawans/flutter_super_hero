@@ -6,8 +6,8 @@ import 'package:flutter_super_hero/domain/model/powerstats.dart';
 import 'package:flutter_super_hero/domain/model/work.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'hero.freezed.dart';
-part 'hero.g.dart';
+part 'super_hero.freezed.dart';
+part 'super_hero.g.dart';
 
 @freezed
 class SuperHero with _$SuperHero {

@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_super_hero/core/router/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_super_hero/domain/repository/sql_database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SqlDatabase();
+
+  await initialization(null);
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
   ]).then(
     (_) => runApp(
       const ProviderScope(
@@ -17,6 +21,10 @@ void main() async {
       ),
     ),
   );
+}
+
+Future initialization(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds: 3));
 }
 
 class MyApp extends StatelessWidget {

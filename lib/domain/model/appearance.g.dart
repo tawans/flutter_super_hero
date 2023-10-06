@@ -8,14 +8,14 @@ part of 'appearance.dart';
 
 _$_Appearance _$$_AppearanceFromJson(Map<String, dynamic> json) =>
     _$_Appearance(
-      gender: json['gender'] as String,
-      race: json['race'] as String,
+      gender: json['gender'] as String?,
+      race: json['race'] as String?,
       height:
-          (json['height'] as List<dynamic>).map((e) => e as String).toList(),
+          (json['height'] as List<dynamic>?)?.map((e) => e as String).toList(),
       weight:
-          (json['weight'] as List<dynamic>).map((e) => e as String).toList(),
-      eyeColor: json['eyeColor'] as String,
-      hairColor: json['hairColor'] as String,
+          (json['weight'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      eyeColor: json['eyeColor'] as String?,
+      hairColor: json['hairColor'] as String?,
     );
 
 Map<String, dynamic> _$$_AppearanceToJson(_$_Appearance instance) =>

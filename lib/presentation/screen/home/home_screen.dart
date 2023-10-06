@@ -1,15 +1,15 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_super_hero/domain/model/super_hero.dart';
-import 'package:flutter_super_hero/presentation/components/search_bar_ui.dart';
-import 'package:flutter_super_hero/presentation/screen/home/home_riverpod.dart';
-import 'package:flutter_super_hero/presentation/screen/home/home_state.dart';
+import 'package:flutter_super_hero/presentation/screen/home/home_provider.dart';
 import 'package:flutter_super_hero/presentation/screen/home/home_ui_event.dart';
-import 'package:flutter_super_hero/presentation/screen/home/home_view_model.dart';
 
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
+import 'package:flutter_super_hero/presentation/util/hex_color.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lottie/lottie.dart';
@@ -22,8 +22,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  static const _pageSize = 20;
   final controller = TextEditingController();
+
+  Timer? _debounceTimer;
 
   final PagingController<int, SuperHero> _pagingController =
       PagingController(firstPageKey: 0);
@@ -32,17 +33,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
-    // Future.microtask(() {
-    //   context.read<HomeViewModel>().eventStream.listen((event) {
-    //     switch (event) {
-    //       case ShowSnackBar(:final message):
-    //         final snackBar = SnackBar(content: Text(message));
-    //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //       case EndLoading():
-    //         print('로딩 끝');
-    //     }
-    //   });
-    // });
+    Future.microtask(() {
+      ref.read(homeRiverpod.notifier).eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBar(:final message):
+            final snackBar = SnackBar(content: Text(message));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          case EndLoading():
+            print('로딩 끝');
+        }
+      });
+    });
   }
 
   @override
@@ -53,10 +54,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final viewModel = context.watch<HomeViewModel>();
-    //final state = viewModel.state;
+    final state = ref.watch(homeRiverpod);
 
-    final nameName = ref.watch(nameRiverpod);
+    controller.addListener(() {
+      if (_debounceTimer?.isActive ?? false) {
+        _debounceTimer?.cancel();
+      }
+
+      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+        if (controller.text.isEmpty) {
+          return;
+        }
+        ref.read(homeRiverpod.notifier).fetchHeros(controller.text);
+      });
+
+      if (controller.text.isEmpty) {
+        _pagingController.refresh();
+      }
+    });
 
     List<List<String>> popularHeroList = [
       [
@@ -64,22 +79,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         '263',
         '313',
         '370',
-        '622',
-        '40',
+        '213',
+        '659',
         '332',
         '732',
         '149',
         '106',
-        '69',
+        '70',
         '107',
       ],
       [
-        //'Superman',
-        nameName,
+        'Superman',
         'Flash',
         'Hawkeye',
         'Joker',
-        'Spiderman',
+        'Deadpool',
         'Thor',
         'Hulk',
         'Ironman',
@@ -93,7 +107,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         'https://www.superherodb.com/pictures2/portraits/10/100/891.jpg',
         'https://www.superherodb.com/pictures2/portraits/10/100/73.jpg',
         'https://www.superherodb.com/pictures2/portraits/10/100/719.jpg',
-        'https://www.superherodb.com/pictures2/portraits/10/100/10647.jpg',
+        'https://www.superherodb.com/pictures2/portraits/10/100/835.jpg',
         'https://www.superherodb.com/pictures2/portraits/10/100/140.jpg',
         'https://www.superherodb.com/pictures2/portraits/10/100/83.jpg',
         'https://www.superherodb.com/pictures2/portraits/10/100/85.jpg',
@@ -111,18 +125,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: MediaQuery.of(context).padding.top,
           ),
-          appBarUI(nameName),
-
-          //   searchBarUi(context, controller, viewModel),
+          appBarUI(),
+          searchBarUi(context, controller),
           const SizedBox(
             height: 4,
           ),
-          // if (state.heros.isNotEmpty)
-          //   searchGridView(state, popularHeroList)
-          // else
-          //   staggeredGridView(
-          //     popularHeroList,
-          //   ),
+          if (controller.text.isEmpty || state.isEmpty)
+            staggeredGridView(popularHeroList)
+          else
+            searchGridView(state, popularHeroList),
         ],
       ),
     );
@@ -202,27 +213,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget appBarUI(nameName) {
+  Widget appBarUI() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
-          Expanded(
+          const Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Search your$nameName',
+                  'Search your favorite',
                   textAlign: TextAlign.left,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     letterSpacing: 0.2,
                     color: AppTheme.grey,
                   ),
                 ),
-                const Row(
+                Row(
                   children: [
                     Text(
                       'Super',
@@ -259,7 +270,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget searchGridView(HomeState state, popularHeroList) {
+  Widget searchGridView(List<SuperHero> state, popularHeroList) {
     return Expanded(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -275,14 +286,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
             ),
-            itemCount: state.heros.length,
+            itemCount: state.length,
             itemBuilder: (context, index) {
-              final hero = state.heros[index];
+              final hero = state[index];
               return Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: InkWell(
                   onTap: () {
-                    context.push('/detail/${popularHeroList[0][index]}');
+                    context.push('/detail/${state[index].id}');
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -348,6 +359,91 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget searchBarUi(BuildContext context, TextEditingController controller) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final searchBarWidth = !isPortrait
+        ? screenWidth - 136
+        : screenWidth - 18; // 세로 모드와 가로 모드에 따라 너비 설정`
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: searchBarWidth,
+            height: 64,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: HexColor('#F8FAFB'),
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(13.0),
+                    bottomLeft: Radius.circular(13.0),
+                    topLeft: Radius.circular(13.0),
+                    topRight: Radius.circular(13.0),
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: TextField(
+                          onSubmitted: (value) {
+                            ref
+                                .read(homeRiverpod.notifier)
+                                .fetchHeros(controller.text);
+                          },
+                          controller: controller,
+                          cursorColor: AppTheme.heroBlue,
+                          autofocus: false,
+                          style: const TextStyle(
+                            decorationThickness: 0,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppTheme.darkText,
+                          ),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: 'Search Your Hero Name',
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: HexColor('#B9BABC'),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.search,
+                                color: HexColor('#B9BABC'),
+                              ),
+                              onPressed: () {
+                                ref
+                                    .read(homeRiverpod.notifier)
+                                    .fetchHeros(controller.text);
+                              },
+                            ),
+                          ),
+                          onEditingComplete: () {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

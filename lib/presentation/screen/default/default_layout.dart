@@ -26,22 +26,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
             .currentConfiguration
             .uri
             .toString() ==
-        '/search') {
+        '/favorite') {
       return 1;
-    } else if (GoRouter.of(context)
-            .routerDelegate
-            .currentConfiguration
-            .uri
-            .toString() ==
-        '/profile') {
-      return 2;
-    } else if (GoRouter.of(context)
-            .routerDelegate
-            .currentConfiguration
-            .uri
-            .toString() ==
-        '/settings') {
-      return 3;
     } else {
       return 0;
     }
@@ -65,7 +51,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       icons: const [
         Icons.home,
         Icons.favorite,
-        Icons.person,
       ],
       activeIndex: getIndex(context),
       onTap: (index) {
@@ -73,11 +58,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
           case 0:
             context.go('/home');
           case 1:
-            context.go('/search');
-          case 2:
-            context.go('/profile');
-          case 3:
-            context.go('/settings');
+            context.go('/favorite');
         }
       },
       activeColor: AppTheme.heroBlue,

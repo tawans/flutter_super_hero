@@ -20,12 +20,12 @@ Appearance _$AppearanceFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Appearance {
-  String get gender => throw _privateConstructorUsedError;
-  String get race => throw _privateConstructorUsedError;
-  List<String> get height => throw _privateConstructorUsedError;
-  List<String> get weight => throw _privateConstructorUsedError;
-  String get eyeColor => throw _privateConstructorUsedError;
-  String get hairColor => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
+  String? get race => throw _privateConstructorUsedError;
+  List<String>? get height => throw _privateConstructorUsedError;
+  List<String>? get weight => throw _privateConstructorUsedError;
+  String? get eyeColor => throw _privateConstructorUsedError;
+  String? get hairColor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,12 +40,12 @@ abstract class $AppearanceCopyWith<$Res> {
       _$AppearanceCopyWithImpl<$Res, Appearance>;
   @useResult
   $Res call(
-      {String gender,
-      String race,
-      List<String> height,
-      List<String> weight,
-      String eyeColor,
-      String hairColor});
+      {String? gender,
+      String? race,
+      List<String>? height,
+      List<String>? weight,
+      String? eyeColor,
+      String? hairColor});
 }
 
 /// @nodoc
@@ -61,38 +61,38 @@ class _$AppearanceCopyWithImpl<$Res, $Val extends Appearance>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gender = null,
-    Object? race = null,
-    Object? height = null,
-    Object? weight = null,
-    Object? eyeColor = null,
-    Object? hairColor = null,
+    Object? gender = freezed,
+    Object? race = freezed,
+    Object? height = freezed,
+    Object? weight = freezed,
+    Object? eyeColor = freezed,
+    Object? hairColor = freezed,
   }) {
     return _then(_value.copyWith(
-      gender: null == gender
+      gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      race: null == race
+              as String?,
+      race: freezed == race
           ? _value.race
           : race // ignore: cast_nullable_to_non_nullable
-              as String,
-      height: null == height
+              as String?,
+      height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      weight: null == weight
+              as List<String>?,
+      weight: freezed == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      eyeColor: null == eyeColor
+              as List<String>?,
+      eyeColor: freezed == eyeColor
           ? _value.eyeColor
           : eyeColor // ignore: cast_nullable_to_non_nullable
-              as String,
-      hairColor: null == hairColor
+              as String?,
+      hairColor: freezed == hairColor
           ? _value.hairColor
           : hairColor // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -106,12 +106,12 @@ abstract class _$$_AppearanceCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String gender,
-      String race,
-      List<String> height,
-      List<String> weight,
-      String eyeColor,
-      String hairColor});
+      {String? gender,
+      String? race,
+      List<String>? height,
+      List<String>? weight,
+      String? eyeColor,
+      String? hairColor});
 }
 
 /// @nodoc
@@ -125,38 +125,38 @@ class __$$_AppearanceCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gender = null,
-    Object? race = null,
-    Object? height = null,
-    Object? weight = null,
-    Object? eyeColor = null,
-    Object? hairColor = null,
+    Object? gender = freezed,
+    Object? race = freezed,
+    Object? height = freezed,
+    Object? weight = freezed,
+    Object? eyeColor = freezed,
+    Object? hairColor = freezed,
   }) {
     return _then(_$_Appearance(
-      gender: null == gender
+      gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      race: null == race
+              as String?,
+      race: freezed == race
           ? _value.race
           : race // ignore: cast_nullable_to_non_nullable
-              as String,
-      height: null == height
+              as String?,
+      height: freezed == height
           ? _value._height
           : height // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      weight: null == weight
+              as List<String>?,
+      weight: freezed == weight
           ? _value._weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      eyeColor: null == eyeColor
+              as List<String>?,
+      eyeColor: freezed == eyeColor
           ? _value.eyeColor
           : eyeColor // ignore: cast_nullable_to_non_nullable
-              as String,
-      hairColor: null == hairColor
+              as String?,
+      hairColor: freezed == hairColor
           ? _value.hairColor
           : hairColor // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -165,12 +165,12 @@ class __$$_AppearanceCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Appearance implements _Appearance {
   const _$_Appearance(
-      {required this.gender,
-      required this.race,
-      required final List<String> height,
-      required final List<String> weight,
-      required this.eyeColor,
-      required this.hairColor})
+      {this.gender,
+      this.race,
+      final List<String>? height,
+      final List<String>? weight,
+      this.eyeColor,
+      this.hairColor})
       : _height = height,
         _weight = weight;
 
@@ -178,29 +178,33 @@ class _$_Appearance implements _Appearance {
       _$$_AppearanceFromJson(json);
 
   @override
-  final String gender;
+  final String? gender;
   @override
-  final String race;
-  final List<String> _height;
+  final String? race;
+  final List<String>? _height;
   @override
-  List<String> get height {
+  List<String>? get height {
+    final value = _height;
+    if (value == null) return null;
     if (_height is EqualUnmodifiableListView) return _height;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_height);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _weight;
+  final List<String>? _weight;
   @override
-  List<String> get weight {
+  List<String>? get weight {
+    final value = _weight;
+    if (value == null) return null;
     if (_weight is EqualUnmodifiableListView) return _weight;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_weight);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final String eyeColor;
+  final String? eyeColor;
   @override
-  final String hairColor;
+  final String? hairColor;
 
   @override
   String toString() {
@@ -249,28 +253,28 @@ class _$_Appearance implements _Appearance {
 
 abstract class _Appearance implements Appearance {
   const factory _Appearance(
-      {required final String gender,
-      required final String race,
-      required final List<String> height,
-      required final List<String> weight,
-      required final String eyeColor,
-      required final String hairColor}) = _$_Appearance;
+      {final String? gender,
+      final String? race,
+      final List<String>? height,
+      final List<String>? weight,
+      final String? eyeColor,
+      final String? hairColor}) = _$_Appearance;
 
   factory _Appearance.fromJson(Map<String, dynamic> json) =
       _$_Appearance.fromJson;
 
   @override
-  String get gender;
+  String? get gender;
   @override
-  String get race;
+  String? get race;
   @override
-  List<String> get height;
+  List<String>? get height;
   @override
-  List<String> get weight;
+  List<String>? get weight;
   @override
-  String get eyeColor;
+  String? get eyeColor;
   @override
-  String get hairColor;
+  String? get hairColor;
   @override
   @JsonKey(ignore: true)
   _$$_AppearanceCopyWith<_$_Appearance> get copyWith =>
