@@ -11,7 +11,8 @@ import 'package:flutter_super_hero/domain/model/work.dart';
 import 'package:flutter_super_hero/domain/repository/sql_crud_repository.dart';
 import 'package:flutter_super_hero/domain/use_case/get_hero_id_usecase.dart';
 
-final detailRiverpod = StateNotifierProvider<DetailRiverpod, SuperHero>(
+final detailRiverpod =
+    StateNotifierProvider.autoDispose<DetailRiverpod, SuperHero>(
   (ref) => DetailRiverpod(),
 );
 
@@ -85,6 +86,12 @@ class DetailRiverpod extends StateNotifier<SuperHero> {
 
   Future<bool> isFavorite(String id) async {
     final favoriteHero = await SqlCrudRepository.getHeroById(id);
+    print('favoriteHero: $favoriteHero');
+    return favoriteHero != null ? true : false;
+  }
+
+  bool isFavoriteSync(String id) {
+    final favoriteHero = SqlCrudRepository.getHeroById(id);
     print('favoriteHero: $favoriteHero');
     return favoriteHero != null ? true : false;
   }

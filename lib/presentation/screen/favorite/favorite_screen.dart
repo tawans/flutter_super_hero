@@ -31,8 +31,13 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(width: 38),
-            Lottie.asset('assets/lottie/favorite_icon.json'),
+            const SizedBox(width: 65),
+            Image.asset(
+              'assets/images/logo/super_hero_app_logo_transper.png',
+              fit: BoxFit.cover,
+              width: 40,
+            ),
+            const SizedBox(width: 10),
             const Text(
               'FAVORITE HEROS',
               style: TextStyle(

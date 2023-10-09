@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_super_hero/presentation/screen/detail/detail_provider.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:lottie/lottie.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final String? heroId;
@@ -406,29 +407,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
                 alignment: Alignment.center,
                 scale: CurvedAnimation(
                     parent: animationController!, curve: Curves.fastOutSlowIn),
-                child: GestureDetector(
-                  onTap: () {
-                    ref.read(detailRiverpod.notifier).toggleFavorite(state.id);
-                  },
-                  child: Card(
-                    color: ref
-                                .watch(detailRiverpod.notifier)
-                                .isFavorite(state.id) ==
-                            true
-                        ? Colors.blue[50]
-                        : AppTheme.heroBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0)),
-                    elevation: 10.0,
-                    child: const SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Center(
-                        child: Icon(
-                          Icons.favorite,
-                          color: AppTheme.nearlyWhite,
-                          size: 30,
-                        ),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0)),
+                  elevation: 10.0,
+                  child: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () {
+                          ref
+                              .read(detailRiverpod.notifier)
+                              .toggleFavorite(state.id);
+                        },
+                        icon: isFavoriteIcon(),
                       ),
                     ),
                   ),
@@ -508,6 +501,24 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
         ),
       ),
     );
+  }
+
+  Widget isFavoriteIcon() {
+    final isFavorite = ref
+        .watch(detailRiverpod.notifier)
+        .isFavoriteSync(ref.read(detailRiverpod).id);
+
+    if (isFavorite) {
+      return const Icon(
+        Icons.favorite,
+        color: Colors.red,
+      );
+    } else {
+      return const Icon(
+        Icons.favorite_border,
+        color: Colors.red,
+      );
+    }
   }
 
   Widget loadingImage(BuildContext context) {

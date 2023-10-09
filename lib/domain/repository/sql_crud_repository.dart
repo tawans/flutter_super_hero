@@ -18,12 +18,16 @@ class SqlCrudRepository {
     });
   }
 
-  static Future<SuperHero?> getHeroById(String id) async {
+  static Future<FavoriteHero?> getHeroById(String id) async {
     var db = await SqlDatabase().database;
-    List<Map<String, dynamic>> maps =
-        await db.query('super_hero', where: 'id = ?', whereArgs: [id]);
+    List<Map<String, dynamic>> maps = await db.query(
+      'super_hero',
+      columns: ['id', 'name', 'imageUrl'],
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     if (maps.isNotEmpty) {
-      return SuperHero.fromJson(maps.first);
+      return FavoriteHero.fromJson(maps.first);
     }
     return null;
   }
