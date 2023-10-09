@@ -128,262 +128,271 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
                           maxHeight: tempHeight > infoHeight
                               ? tempHeight
                               : infoHeight),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 32.0, left: 18, right: 16, bottom: 0),
-                            child: Text(
-                              state.name,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 22,
-                                letterSpacing: 0.27,
-                                color: AppTheme.darkerText,
+                      child: Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 32.0, left: 18, right: 16, bottom: 0),
+                              child: Text(
+                                state.name,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 22,
+                                  letterSpacing: 0.27,
+                                  color: AppTheme.darkerText,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 16, bottom: 8, top: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  state.biography.fullName,
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 22,
-                                    letterSpacing: 0.27,
-                                    color: Color.fromARGB(255, 66, 70, 71),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 8, top: 10),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    state.biography.fullName,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 22,
+                                      letterSpacing: 0.27,
+                                      color: Color.fromARGB(255, 66, 70, 71),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/power.png',
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        averagePowerstats,
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              Color.fromARGB(255, 39, 124, 0),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text(
+                                        'Average stats',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              Color.fromARGB(255, 35, 187, 204),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 500),
+                                opacity: opacity1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      getTimeBoxUI(
+                                          state.powerstats.intelligence,
+                                          'intelligence'),
+                                      getTimeBoxUI(state.powerstats.strength,
+                                          'strength'),
+                                      getTimeBoxUI(
+                                          state.powerstats.power, 'power'),
+                                      getTimeBoxUI(
+                                          state.powerstats.speed, 'speed'),
+                                      getTimeBoxUI(
+                                          state.powerstats.combat, 'combat'),
+                                      getTimeBoxUI(state.powerstats.durability,
+                                          'durability'),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/power.png',
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      averagePowerstats,
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 22,
-                                        letterSpacing: 0.27,
-                                        color: Color.fromARGB(255, 39, 124, 0),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Text(
-                                      'Average stats',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 22,
-                                        letterSpacing: 0.27,
-                                        color:
-                                            Color.fromARGB(255, 35, 187, 204),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                              ),
                             ),
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: AnimatedOpacity(
-                              duration: const Duration(milliseconds: 500),
-                              opacity: opacity1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Row(
-                                  children: <Widget>[
-                                    getTimeBoxUI(state.powerstats.intelligence,
-                                        'intelligence'),
-                                    getTimeBoxUI(
-                                        state.powerstats.strength, 'strength'),
-                                    getTimeBoxUI(
-                                        state.powerstats.power, 'power'),
-                                    getTimeBoxUI(
-                                        state.powerstats.speed, 'speed'),
-                                    getTimeBoxUI(
-                                        state.powerstats.combat, 'combat'),
-                                    getTimeBoxUI(state.powerstats.durability,
-                                        'durability'),
-                                  ],
+                            Expanded(
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 500),
+                                opacity: opacity2,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 10, top: 8, bottom: 8),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Appearance',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.grey,
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'ㆍGender : ${state.appearance.gender}ㆍRace : ${state.appearance.race}\nㆍHeight : ${state.appearance.height}ㆍWeight : ${state.appearance.weight}\nㆍEye Color : ${state.appearance.eyeColor}ㆍHair Color : ${state.appearance.hairColor} ',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              Color.fromARGB(255, 47, 64, 79),
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Divider(
+                                        color: AppTheme.grey.withOpacity(0.2),
+                                        height: 20,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                      ),
+                                      const Text(
+                                        'Biography',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.grey,
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'ㆍAlter Egos : ${state.biography.alterEgos}\nㆍAliases : ${state.biography.aliases}\nㆍPlace of Birth : ${state.biography.placeOfBirth}\nㆍFirst Appearance : ${state.biography.firstAppearance}\nㆍPublisher : ${state.biography.publisher}\nㆍAlignment : ${state.biography.alignment} ',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.grey,
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Divider(
+                                        color: AppTheme.grey.withOpacity(0.2),
+                                        height: 20,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                      ),
+                                      const Text(
+                                        'Work',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.grey,
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'ㆍOccupation : ${state.work.occupation}\nㆍBase of Operation : ${state.work.base}',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              Color.fromARGB(255, 47, 64, 79),
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Divider(
+                                        color: AppTheme.grey.withOpacity(0.2),
+                                        height: 20,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                      ),
+                                      const Text(
+                                        'Connections',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20,
+                                          letterSpacing: 0.27,
+                                          color: AppTheme.grey,
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'ㆍGroup Affiliation : ${state.connections.groupAffiliation}\nㆍRelatives : ${state.connections.relatives} ',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              Color.fromARGB(255, 47, 64, 79),
+                                        ),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Divider(
+                                        color: AppTheme.grey.withOpacity(0.2),
+                                        height: 20,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: AnimatedOpacity(
-                              duration: const Duration(milliseconds: 500),
-                              opacity: opacity2,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, right: 10, top: 8, bottom: 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Appearance',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20,
-                                        letterSpacing: 0.27,
-                                        color: AppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'ㆍGender : ${state.appearance.gender}ㆍRace : ${state.appearance.race}\nㆍHeight : ${state.appearance.height}ㆍWeight : ${state.appearance.weight}\nㆍEye Color : ${state.appearance.eyeColor}ㆍHair Color : ${state.appearance.hairColor} ',
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        letterSpacing: 0.27,
-                                        color: Color.fromARGB(255, 47, 64, 79),
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Divider(
-                                      color: AppTheme.grey.withOpacity(0.2),
-                                      height: 20,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                    ),
-                                    const Text(
-                                      'Biography',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20,
-                                        letterSpacing: 0.27,
-                                        color: AppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'ㆍAlter Egos : ${state.biography.alterEgos}\nㆍAliases : ${state.biography.aliases}\nㆍPlace of Birth : ${state.biography.placeOfBirth}\nㆍFirst Appearance : ${state.biography.firstAppearance}\nㆍPublisher : ${state.biography.publisher}\nㆍAlignment : ${state.biography.alignment} ',
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
-                                        letterSpacing: 0.27,
-                                        color: AppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Divider(
-                                      color: AppTheme.grey.withOpacity(0.2),
-                                      height: 20,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                    ),
-                                    const Text(
-                                      'Work',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20,
-                                        letterSpacing: 0.27,
-                                        color: AppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'ㆍOccupation : ${state.work.occupation}\nㆍBase of Operation : ${state.work.base}',
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        letterSpacing: 0.27,
-                                        color: Color.fromARGB(255, 47, 64, 79),
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Divider(
-                                      color: AppTheme.grey.withOpacity(0.2),
-                                      height: 20,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                    ),
-                                    const Text(
-                                      'Connections',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20,
-                                        letterSpacing: 0.27,
-                                        color: AppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'ㆍGroup Affiliation : ${state.connections.groupAffiliation}\nㆍRelatives : ${state.connections.relatives} ',
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        letterSpacing: 0.27,
-                                        color: Color.fromARGB(255, 47, 64, 79),
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Divider(
-                                      color: AppTheme.grey.withOpacity(0.2),
-                                      height: 20,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -399,10 +408,15 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
                     parent: animationController!, curve: Curves.fastOutSlowIn),
                 child: GestureDetector(
                   onTap: () {
-                    ref.read(detailRiverpod.notifier).addFavorite(state);
+                    ref.read(detailRiverpod.notifier).toggleFavorite(state.id);
                   },
                   child: Card(
-                    color: AppTheme.heroBlue,
+                    color: ref
+                                .watch(detailRiverpod.notifier)
+                                .isFavorite(state.id) ==
+                            true
+                        ? Colors.blue[50]
+                        : AppTheme.heroBlue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0)),
                     elevation: 10.0,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_super_hero/presentation/screen/favorite/favorite_provider.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class FavoriteScreen extends ConsumerStatefulWidget {
@@ -56,48 +57,60 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                 return Card(
                   color: Colors.amber[50],
                   elevation: 4, // 카드 그림자 효과 추가
-                  child: Slidable(
-                    endActionPane:
-                        ActionPane(motion: const StretchMotion(), children: [
-                      SlidableAction(
-                        label: 'Delete',
-                        onPressed: (context) {
-                          ref
-                              .read(favoriteRiverpod.notifier)
-                              .deleteHero(state[index].id);
-                        },
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                      ),
-                    ]),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: state[index].imageUrl,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                              state[index].name,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push('/detail/${state[index].id}');
+                    },
+                    child: Slidable(
+                      endActionPane:
+                          ActionPane(motion: const StretchMotion(), children: [
+                        SlidableAction(
+                          label: 'Delete',
+                          onPressed: (context) {
+                            ref
+                                .read(favoriteRiverpod.notifier)
+                                .deleteHero(state[index].id);
+                          },
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                        ),
+                      ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: state[index].imageUrl,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                state[index].name,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  ref
+                                      .read(favoriteRiverpod.notifier)
+                                      .deleteHero(state[index].id);
+                                },
+                                icon: const Icon(Icons.delete)),
+                          ],
+                        ),
                       ),
                     ),
                   ),

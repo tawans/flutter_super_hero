@@ -11,8 +11,7 @@ import 'package:flutter_super_hero/domain/model/work.dart';
 import 'package:flutter_super_hero/domain/repository/sql_crud_repository.dart';
 import 'package:flutter_super_hero/domain/use_case/get_hero_id_usecase.dart';
 
-final detailRiverpod =
-    StateNotifierProvider.autoDispose<DetailRiverpod, SuperHero>(
+final detailRiverpod = StateNotifierProvider<DetailRiverpod, SuperHero>(
   (ref) => DetailRiverpod(),
 );
 
@@ -78,5 +77,24 @@ class DetailRiverpod extends StateNotifier<SuperHero> {
 
   void addFavorite(SuperHero superHero) async {
     SqlCrudRepository.insertHero(superHero);
+  }
+
+  void deleteFavorite(String id) async {
+    SqlCrudRepository.deleteHero(id);
+  }
+
+  Future<bool> isFavorite(String id) async {
+    final favoriteHero = await SqlCrudRepository.getHeroById(id);
+    print('favoriteHero: $favoriteHero');
+    return favoriteHero != null ? true : false;
+  }
+
+  void toggleFavorite(String id) async {
+    final isFavorite = await this.isFavorite(id);
+    if (isFavorite) {
+      deleteFavorite(id);
+    } else {
+      addFavorite(state);
+    }
   }
 }
