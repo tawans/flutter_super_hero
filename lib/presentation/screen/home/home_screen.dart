@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     List<List<String>> popularHeroList = [
       [
-        '6441',
+        '644',
         '263',
         '313',
         '370',
