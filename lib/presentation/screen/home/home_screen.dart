@@ -183,7 +183,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         right: 0,
                         child: Container(
                           height: 30,
-                          color: Colors.black.withOpacity(0.5),
+                          color: const Color.fromARGB(255, 85, 77, 77)
+                              .withOpacity(0.5),
                         ),
                       ),
                       Positioned(
