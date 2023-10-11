@@ -11,8 +11,7 @@ import 'package:flutter_super_hero/domain/model/work.dart';
 import 'package:flutter_super_hero/domain/repository/sql_crud_repository.dart';
 import 'package:flutter_super_hero/domain/use_case/get_hero_id_usecase.dart';
 
-final detailRiverpod =
-    StateNotifierProvider.autoDispose<DetailRiverpod, SuperHero>(
+final detailRiverpod = StateNotifierProvider<DetailRiverpod, SuperHero>(
   (ref) => DetailRiverpod(),
 );
 
@@ -76,6 +75,18 @@ class DetailRiverpod extends StateNotifier<SuperHero> {
     }
   }
 
+  Future<SuperHero> getHeroFuture(String id) async {
+    Result<SuperHero> result = await _getHeroIdUseCase.call(id);
+
+    switch (result) {
+      case Success(:final data):
+        return data;
+      case Error(:final e):
+        print(e);
+        return state;
+    }
+  }
+
   void addFavorite(SuperHero superHero) async {
     SqlCrudRepository.insertHero(superHero);
   }
@@ -90,11 +101,11 @@ class DetailRiverpod extends StateNotifier<SuperHero> {
     return favoriteHero != null ? true : false;
   }
 
-  bool isFavoriteSync(String id) {
-    final favoriteHero = SqlCrudRepository.getHeroById(id);
-    print('favoriteHero: $favoriteHero');
-    return favoriteHero != null ? true : false;
-  }
+  // bool isFavoriteSync(String id) {
+  //   final favoriteHero = SqlCrudRepository.getHeroById(id);
+  //   print('favoriteHero: $favoriteHero');
+  //   return favoriteHero != null ? true : false;
+  // }
 
   void toggleFavorite(String id) async {
     final isFavorite = await this.isFavorite(id);

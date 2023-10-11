@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/presentation/screen/detail/detail_provider.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:lottie/lottie.dart';
@@ -59,6 +60,73 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    FutureBuilder<SuperHero> futureBuilder() {
+      return FutureBuilder<SuperHero>(
+        future: ref.read(detailRiverpod.notifier).getHeroFuture(widget.heroId!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return _buildDetailUI(context);
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          } else {
+            return loadingImage(context);
+          }
+        },
+      );
+    }
+
+    return futureBuilder();
+  }
+
+  Widget getTimeBoxUI(String text1, String txt2) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.nearlyWhite,
+          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: AppTheme.grey.withOpacity(0.2),
+                offset: const Offset(1.1, 1.1),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 18.0, right: 18.0, top: 12.0, bottom: 12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                text1,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  letterSpacing: 0.27,
+                  color: AppTheme.heroBlue,
+                ),
+              ),
+              Text(
+                txt2,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w200,
+                  fontSize: 14,
+                  letterSpacing: 0.27,
+                  color: AppTheme.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailUI(BuildContext context) {
     final double tempHeight = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).size.width / 1.2) +
         600.0;
@@ -455,70 +523,24 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
     );
   }
 
-  Widget getTimeBoxUI(String text1, String txt2) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.nearlyWhite,
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.2),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 8.0),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 18.0, right: 18.0, top: 12.0, bottom: 12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                text1,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  letterSpacing: 0.27,
-                  color: AppTheme.heroBlue,
-                ),
-              ),
-              Text(
-                txt2,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 14,
-                  letterSpacing: 0.27,
-                  color: AppTheme.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget isFavoriteIcon() {
     final isFavorite = ref
         .watch(detailRiverpod.notifier)
-        .isFavoriteSync(ref.read(detailRiverpod).id);
+        .isFavorite(ref.watch(detailRiverpod).id);
 
-    if (isFavorite) {
-      return const Icon(
-        Icons.favorite,
-        color: Colors.red,
-      );
-    } else {
-      return const Icon(
-        Icons.favorite_border,
-        color: Colors.red,
-      );
-    }
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      child: isFavorite
+          ? const Icon(
+              Icons.favorite,
+              color: Colors.red,
+              key: Key('favorite'),
+            )
+          : const Icon(
+              Icons.favorite_border,
+              key: Key('unfavorite'),
+            ),
+    );
   }
 
   Widget loadingImage(BuildContext context) {
