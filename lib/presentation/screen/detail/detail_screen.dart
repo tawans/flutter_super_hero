@@ -5,7 +5,6 @@ import 'package:flutter_super_hero/domain/model/super_hero.dart';
 import 'package:flutter_super_hero/presentation/screen/detail/detail_provider.dart';
 import 'package:flutter_super_hero/presentation/util/app_theme.dart';
 import 'package:lottie/lottie.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final String? heroId;
@@ -60,12 +59,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isFavorite = ref
+        .watch(detailRiverpod.notifier)
+        .isFavorite(ref.watch(detailRiverpod).id);
+
     FutureBuilder<SuperHero> futureBuilder() {
       return FutureBuilder<SuperHero>(
         future: ref.read(detailRiverpod.notifier).getHeroFuture(widget.heroId!),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return _buildDetailUI(context);
+            return FutureBuilder<bool>(
+                future: isFavorite,
+                builder: (context, snapshot) {
+                  final favoriteIcon = isFavoriteIcon(snapshot.data!);
+                  return _buildDetailUI(context, favoriteIcon);
+                });
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           } else {
@@ -126,7 +134,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
     );
   }
 
-  Widget _buildDetailUI(BuildContext context) {
+  Widget _buildDetailUI(BuildContext context, Widget favoriteIcon) {
     final double tempHeight = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).size.width / 1.2) +
         600.0;
@@ -489,7 +497,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
                               .read(detailRiverpod.notifier)
                               .toggleFavorite(state.id);
                         },
-                        icon: isFavoriteIcon(),
+                        icon: favoriteIcon,
                       ),
                     ),
                   ),
@@ -523,11 +531,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen>
     );
   }
 
-  Widget isFavoriteIcon() {
-    final isFavorite = ref
-        .watch(detailRiverpod.notifier)
-        .isFavorite(ref.watch(detailRiverpod).id);
-
+  Widget isFavoriteIcon(bool isFavorite) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: isFavorite
